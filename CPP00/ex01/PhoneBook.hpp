@@ -18,12 +18,12 @@
 class PhoneBook {
 	
 	private:
-		int			_status;
+		bool		_isFull;
 		size_t		_index;
-		Contact 	_contacts[9];
+		Contact 	_contacts[8];
 
-		void		_displayContact(void);
-		void		_displayRepertoire(void);
+		void		_displayContact(size_t);
+		void		_displayRepertoire(size_t);
 
 		std::string	_truncate(std::string);
 		std::string	_returnValidInfo(std::string);

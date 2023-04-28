@@ -8,7 +8,7 @@
 PhoneBook::PhoneBook(void) {
 
 	this->_index = 0;
-	this->_status = 0;
+	this->_isFull = false;
 }
 
 PhoneBook::~PhoneBook(void) {
@@ -26,30 +26,29 @@ int		PhoneBook::addContact() {
 
 	std::string userInput;
 
-	if (_index > 8)
-		_index = 0;
+	_index > 7 ? _index = 0, _isFull = true : _index = _index; 
 
-	if (this->_status == FAILURE)
+	if (!std::cin.good())
 		return (FAILURE);
 	userInput = _returnValidInfo("Please enter your first name: ");
 	this->_contacts[_index].setFirstName(userInput);
 
-	if (this->_status == FAILURE)
+	if (!std::cin.good())
 		return (FAILURE);
 	userInput = _returnValidInfo("Please enter your last name: ");
 	this->_contacts[_index].setLastName(userInput);
 
-	if (this->_status == FAILURE)
+	if (!std::cin.good())
 		return (FAILURE);
 	userInput = _returnValidInfo("Please enter your nickname: ");
 	this->_contacts[_index].setNickname(userInput);
 
-	if (this->_status == FAILURE)
+	if (!std::cin.good())
 		return (FAILURE);
 	userInput = _returnValidNumber("Please enter your number: ");
 	this->_contacts[_index].setNumber(userInput);
 
-	if (this->_status == FAILURE)
+	if (!std::cin.good())
 		return (FAILURE);
 	userInput = _returnValidInfo("Please enter your darkest secret: ");
 	this->_contacts[_index].setDarkestSecret(userInput);
@@ -65,15 +64,12 @@ std::string	PhoneBook::_returnValidInfo(std::string message) {
 
 	std::string userInput;
 
-	if (!std::cin.good())
-		this->_status = FAILURE;
-
 	do
 	{
 		std::cout << message << std::endl;
 		std::cin >> userInput;
 
-	} while (userInput.length() == 0);
+	} while (userInput.length() == 0 && std::cin.good());
 
 	return (userInput);
 }
@@ -108,35 +104,39 @@ std::string	PhoneBook::_returnValidNumber(std::string message) {
 
 int		PhoneBook::searchContact(void) {
 
+	size_t	size;
+
+	_isFull == true ? size = 8 : size = _index;
+
+	if (!std::cin.good())
+		return (FAILURE);
+
 	if (_index < 1)
 	{
 		std::cout << "Repertoire is empty" << std::endl;
 		return (SUCCESS);
 	}
+	_displayRepertoire(size);
+	_displayContact(size);
 	
-	_displayRepertoire();
-	_displayContact();
-
 	return (SUCCESS);
 }
 
 /* ------------------------ Privates member functions ----------------------- */
 
-void		PhoneBook::_displayRepertoire(void) {
+void		PhoneBook::_displayRepertoire(size_t size) {
 
 	Contact		cur;
 
 	std::cout << std::endl;
-	for (size_t i = 0; i < _index; i++)
+	for (size_t i = 0; i < size; i++)
 	{
 		cur = _contacts[i];
 		std::cout << std::right
-		<< BOLDWHITE << "[" << i <<"]" << RESET 				<< "|"
-		<< std::setw(10) << _truncate(cur.getFirstName()) 		<< "|"
-		<< std::setw(10) << _truncate(cur.getLastName()) 		<< "|"
-		<< std::setw(10) << _truncate(cur.getNickname()) 		<< "|"
-		<< std::setw(10) << _truncate(cur.getNumber())			<< "|"
-		<< std::setw(10) << _truncate(cur.getDarkestSecret())	<< "|"
+		<< std::setw(10) << BOLDWHITE << "[" << i << "]" << RESET	<< "|"
+		<< std::setw(10) << _truncate(cur.getFirstName())			<< "|"
+		<< std::setw(10) << _truncate(cur.getLastName())			<< "|"
+		<< std::setw(10) << _truncate(cur.getNickname())			<< "|"
 		<< std::endl;
 	}
 	std::cout << std::endl;
@@ -144,7 +144,7 @@ void		PhoneBook::_displayRepertoire(void) {
 
 /* -------------------------------------------------------------------------- */
 
-void		PhoneBook::_displayContact(void) {
+void		PhoneBook::_displayContact(size_t size) {
 
 	int			index;
 	std::string	userInput;
@@ -152,13 +152,15 @@ void		PhoneBook::_displayContact(void) {
 	do
 	{
 		std::cout	<< "Please enter a digit between 0 or "
-					<< this->_index - 1 << " included." << std::endl;
+					<< size - 1 << " included." << std::endl;
 		std::cin >> userInput;
 		index = userInput[0] - '0';
+		if (!std::cin.good())
+			return ;
 
-	} while (userInput[0] < '0' || userInput[0] > '8' || userInput.length() != 1
-			||!isdigit(userInput[0]) || (size_t)index > this->_index);
-	
+	} while (userInput[0] < '0' || userInput[0] > '7' || userInput.length() != 1
+			|| !isdigit(userInput[0]) || (size_t)index > this->_index);
+
 	std::cout << std::endl;
 	std::cout << "First name     : " << _contacts[index].getFirstName()		<< std::endl;
 	std::cout << "Last name      : " << _contacts[index].getLastName()		<< std::endl;
