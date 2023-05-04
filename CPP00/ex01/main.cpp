@@ -11,7 +11,7 @@ int main(void) {
 	{
 		std::cout << "Please enter a command such as: ";
 		std::cout << BOLDYELLOW "'ADD', 'SEARCH' or 'EXIT'" RESET << std::endl;
-		std::cin >> userInput;
+		std::getline(std::cin, userInput);
 
 		if (userInput == "ADD")
 		{
