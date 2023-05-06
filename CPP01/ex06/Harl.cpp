@@ -51,12 +51,13 @@ void	Harl::error( void ) {
 /*                           Public member function                           */
 /* -------------------------------------------------------------------------- */
 
-eLevel		Harl::hashIt( std::string const& level ) {
+eLevel	Harl::hashIt( std::string const& level ) {
 
-	if (level == "DEBUG") return (eDEBUG);
-	else if (level == "INFO") return (eINFO);
-	else if (level == "WARNING") return (eWARNING);
-	else if (level == "ERROR") return (eERROR);
+	std::string	levels[] = { "DEBUG", "INFO", "WARNING", "ERROR" };
+
+	for (size_t i = 0; i < 4; i++)
+		if (levels[i] == level)
+			return ((eLevel)i);
 	
 	return (eNOTFOUND);
 }

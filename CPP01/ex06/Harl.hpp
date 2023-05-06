@@ -4,11 +4,11 @@
 
 enum	eLevel {
 
-	eNOTFOUND,
 	eDEBUG,
 	eINFO,
 	eWARNING,
-	eERROR
+	eERROR,
+	eNOTFOUND
 };
 
 class	Harl {
