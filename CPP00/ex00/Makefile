@@ -1,6 +1,6 @@
 NAME		=	megaphone
 
-SRCS		=	megaphone.cpp
+SRCS		=	Megaphone.cpp
 
 CC			=	c++
 

@@ -2,9 +2,6 @@
 #include <iostream>
 #include <ctime>
 
-# define RESET	"\033[0m"
-# define CYAN	"\033[1;36m"
-
 /* -------------------------------------------------------------------------- */
 /*                           Constructor/Destructor (Public)                  */
 /* -------------------------------------------------------------------------- */
@@ -13,8 +10,8 @@ Account::Account( int initial_deposit ) {
 
 	_displayTimestamp();
 	std::cout
-	<< "index:"  << CYAN << getNbAccounts() << RESET << ";"
-	<< "amount:" << CYAN << initial_deposit << RESET << ";"
+	<< "index:"  << getNbAccounts()	<< ";"
+	<< "amount:" << initial_deposit	<< ";"
 	<< "created" << std::endl;
 
 	this->_accountIndex = getNbAccounts();
@@ -29,9 +26,9 @@ Account::~Account( void ) {
 
 	_displayTimestamp();
 	std::cout
-	<< "index:" << CYAN << this->_accountIndex << RESET << ";"
-	<< "amount:"<< CYAN << this->_amount       << RESET << ";"
-	<< "closed" << std::endl;
+	<< "index:" << this->_accountIndex	<< ";"
+	<< "amount:"<< this->_amount      	<< ";"
+	<< "closed"	<< std::endl;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -63,10 +60,10 @@ void	Account::displayAccountsInfos( void ) {
 
 	_displayTimestamp();
 	std::cout
-	<< "accounts:"    << CYAN << getNbAccounts()    << RESET << ";"
-	<< "total:"       << CYAN << getTotalAmount()   << RESET << ";"
-	<< "deposits:"    << CYAN << getNbDeposits()    << RESET << ";"
-	<< "withdrawals:" << CYAN << getNbWithdrawals() << RESET << std::endl;
+	<< "accounts:"    << getNbAccounts()   	<< ";"
+	<< "total:"       << getTotalAmount()  	<< ";"
+	<< "deposits:"    << getNbDeposits()   	<< ";"
+	<< "withdrawals:" << getNbWithdrawals()	<< std::endl;
 }
 
 /* ---------------------------- Member Functions ---------------------------- */
@@ -75,11 +72,11 @@ void	Account::makeDeposit( int deposit ) {
 	
 	_displayTimestamp();
 	std::cout
-	<< "index:"       << CYAN << this->_accountIndex     << RESET << ";"
-	<< "p_amount:"    << CYAN << checkAmount()           << RESET << ";"
-	<< "deposit:"     << CYAN << deposit                 << RESET << ";"
-	<< "amount:"      << CYAN << checkAmount() + deposit << RESET << ";"
-	<< "nb_deposits:" << CYAN << this->_nbDeposits + 1   << RESET << std::endl;
+	<< "index:"       << this->_accountIndex    	<< ";"
+	<< "p_amount:"    << checkAmount()          	<< ";"
+	<< "deposit:"     << deposit                	<< ";"
+	<< "amount:"      << checkAmount() + deposit	<< ";"
+	<< "nb_deposits:" << this->_nbDeposits + 1  	<< std::endl;
 
 	this->_amount += deposit;
 	_totalAmount += deposit;
@@ -94,18 +91,18 @@ bool	Account::makeWithdrawal( int withdrawal ) {
 	if (withdrawal > this->_amount)
 	{
 		std::cout
-		<< "index:"       << CYAN << this->_accountIndex << RESET << ";"
-		<< "p_amount:"    << CYAN << checkAmount()       << RESET << ";"
-		<< "withdrawal:refused"   << std::endl;
+		<< "index:"				<< this->_accountIndex	<< ";"
+		<< "p_amount:"    		<< checkAmount()      	<< ";"
+		<< "withdrawal:refused"	<< std::endl;
 		return (false);
 	}
 
 	std::cout
-	<< "index:"       << CYAN << this->_accountIndex        << RESET << ";"
-	<< "p_amount:"    << CYAN << checkAmount()              << RESET << ";"
-	<< "withdrawal:"  << CYAN << withdrawal                 << RESET << ";"
-	<< "amount:"      << CYAN << checkAmount() - withdrawal << RESET << ";"
-	<< "nb_withdrawals:" << CYAN << this->_nbWithdrawals +1 << RESET << std::endl;
+	<< "index:"       		<< this->_accountIndex       	<< ";"
+	<< "p_amount:"    		<< checkAmount()             	<< ";"
+	<< "withdrawal:"  		<< withdrawal                	<< ";"
+	<< "amount:"     	 	<< checkAmount() - withdrawal	<< ";"
+	<< "nb_withdrawals:"	<< this->_nbWithdrawals +1		<< std::endl;
 
 	this->_amount -= withdrawal;
 	_totalAmount -= withdrawal;
@@ -124,10 +121,10 @@ void	Account::displayStatus( void ) const {
 
 	_displayTimestamp();
 	std::cout
-	<< "index:"       << CYAN << this->_accountIndex  << RESET << ";"
-	<< "amount:"      << CYAN << checkAmount()        << RESET << ";"
-	<< "deposits:"    << CYAN << this->_nbDeposits    << RESET << ";"
-	<< "withdrawals:" << CYAN << this->_nbWithdrawals << RESET << std::endl;
+	<< "index:"       << this->_accountIndex 	<< ";"
+	<< "amount:"      << checkAmount()       	<< ";"
+	<< "deposits:"    << this->_nbDeposits   	<< ";"
+	<< "withdrawals:" << this->_nbWithdrawals	<< std::endl;
 }
 
 /* -------------------------------------------------------------------------- */
