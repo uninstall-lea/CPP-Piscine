@@ -26,7 +26,11 @@ int		PhoneBook::addContact() {
 
 	std::string userInput;
 
-	_index > 7 ? _index = 0, _isFull = true : _index = _index; 
+	if (_index > 7)
+	{
+		_index = 0;
+		_isFull = true;
+	}
 
 	if (!std::cin.good())
 		return (FAILURE);
