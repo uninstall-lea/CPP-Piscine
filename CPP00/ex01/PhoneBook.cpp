@@ -163,7 +163,7 @@ void		PhoneBook::_displayContact(size_t size) {
 			return ;
 
 	} while (userInput[0] < '0' || userInput[0] > '7' || userInput.length() != 1
-			|| !isdigit(userInput[0]) || (size_t)index > this->_index);
+			|| !isdigit(userInput[0]) || (size_t)index > this->_index || (size_t)index > size -1);
 
 	std::cout << std::endl;
 	std::cout << "First name     : " << _contacts[index].getFirstName()		<< std::endl;
