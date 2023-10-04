@@ -34,70 +34,27 @@ int		PhoneBook::addContact() {
 
 	if (!std::cin.good())
 		return (FAILURE);
-	userInput = _returnValidInfo("Please enter your first name: ");
 	this->_contacts[_index].setFirstName(userInput);
 
 	if (!std::cin.good())
 		return (FAILURE);
-	userInput = _returnValidInfo("Please enter your last name: ");
 	this->_contacts[_index].setLastName(userInput);
 
 	if (!std::cin.good())
 		return (FAILURE);
-	userInput = _returnValidInfo("Please enter your nickname: ");
 	this->_contacts[_index].setNickname(userInput);
 
 	if (!std::cin.good())
 		return (FAILURE);
-	userInput = _returnValidNumber("Please enter your number: ");
 	this->_contacts[_index].setNumber(userInput);
 
 	if (!std::cin.good())
 		return (FAILURE);
-	userInput = _returnValidInfo("Please enter your darkest secret: ");
 	this->_contacts[_index].setDarkestSecret(userInput);
 
 	this->_index++;
 
 	return (SUCCESS);
-}
-
-/* ------------------------ Privates member functions ----------------------- */
-
-std::string	PhoneBook::_returnValidInfo(std::string message) {
-
-	std::string userInput;
-
-	do
-	{
-		std::cout << message << std::endl;
-		std::cin >> userInput;
-
-	} while (userInput.length() == 0 && std::cin.good());
-
-	return (userInput);
-}
-
-/* -------------------------------------------------------------------------- */
-
-std::string	PhoneBook::_returnValidNumber(std::string message) {
-	
-	bool		isDigit;
-	std::string userInput;
-
-	do
-	{
-		isDigit = true;
-		std::cout << message << std::endl;
-		std::cin >> userInput;
-
-		for(std::string::iterator it = userInput.begin(); it != userInput.end(); it++)
-			if (!isdigit(*it))
-				isDigit = false;
-	
-	} while (isDigit == false);
-
-	return (userInput);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -155,7 +112,7 @@ void		PhoneBook::_displayContact(size_t size) {
 
 	do
 	{
-		std::cout	<< "Please enter a digit between 0 or "
+		std::cout	<< "Please enter a digit between 0 and "
 					<< size - 1 << " included." << std::endl;
 		std::cin >> userInput;
 		index = userInput[0] - '0';

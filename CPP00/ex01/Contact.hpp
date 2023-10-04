@@ -1,6 +1,10 @@
 #pragma once
 
 # include <string>
+# include <iostream>
+# include <iomanip>
+# include <ostream>
+# include <cstdlib>
 
 class Contact {
 	
@@ -10,6 +14,9 @@ class Contact {
 		std::string 		_nickname;
 		std::string			_number;
 		std::string 		_darkestSecret;
+
+		std::string			_returnValidInfo(std::string);
+		std::string			_returnValidNumber(std::string);
 
 	public:
 		Contact();

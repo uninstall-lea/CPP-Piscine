@@ -26,7 +26,6 @@ class PhoneBook {
 		void		_displayRepertoire(size_t);
 
 		std::string	_truncate(std::string);
-		std::string	_returnValidInfo(std::string);
 		std::string	_returnValidNumber(std::string);
 
 	public:
