@@ -114,7 +114,7 @@ void		PhoneBook::_displayContact(size_t size) {
 	{
 		std::cout	<< "Please enter a digit between 0 and "
 					<< size - 1 << " included." << std::endl;
-		std::cin >> userInput;
+		std::getline(std::cin, userInput);
 		index = userInput[0] - '0';
 		if (!std::cin.good())
 			return ;
