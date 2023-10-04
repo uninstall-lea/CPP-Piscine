@@ -33,7 +33,6 @@ int		main (int ac, char **av) {
 	std::string		oldString	= av[2];
 	std::string		newString	= av[3];
 
-
 	if (oldString.empty())
 	{
 		std::cout	<< "Can't replace nothing by something" << std::endl;
