@@ -33,13 +33,20 @@ int		main (int ac, char **av) {
 	std::string		oldString	= av[2];
 	std::string		newString	= av[3];
 
+
+	if (oldString.empty())
+	{
+		std::cout	<< "Can't replace nothing by something" << std::endl;
+		return (1);
+	}
+
 	std::ifstream	ifs(fileName.c_str());
 	fileName += ".replace";
 	std::ofstream	ofs(fileName.c_str());
 
 	if (!ifs.is_open() || !ofs.is_open())
 	{
-		std::cout	<< "An error occured while opening one of the files\n";
+		std::cout	<< "An error occured while opening one of the files" << std::endl;
 		return (1);
 	}
 
