@@ -61,9 +61,17 @@ void	ClapTrap::attack( const std::string& target ) {
 
 void	ClapTrap::takeDamage( unsigned int amount ) {
 
-		_hp -= amount;
+	if (_hp > 0) {
+	
+		if (amount > (size_t) _hp)
+			_hp = 0;
+		else
+			_hp -= amount;
 		std::cout	<< "ClapTrap: " << _name << " take " << amount << " damage"
 					<<" and has now " << _hp << " hp left !" << std::endl;
+	}
+	else
+		std::cout	<< "ClapTrap: " << _name << "is already ko !" << std::endl;
 }
 
 void	ClapTrap::beRepaired( unsigned int amount ) {
