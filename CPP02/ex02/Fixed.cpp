@@ -95,12 +95,12 @@ Fixed	Fixed::operator-( Fixed const& rhs ) {
 
 Fixed	Fixed::operator*( Fixed const& rhs ) {
 
-	return Fixed(_value * rhs._value);
+	return Fixed(this->toFloat() * rhs.toFloat());
 }
 
 Fixed	Fixed::operator/( Fixed const& rhs ) {
 
-	return Fixed(_value / rhs._value);
+	return Fixed(this->toFloat() / rhs.toFloat());
 }
 
 // Operator ++i/--i ------------------------------------------------------------
