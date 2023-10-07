@@ -9,8 +9,9 @@ Animal::Animal( void ) : type("Animal") {
 	std::cout	<< "Animal: Default constructor called" << std::endl;
 }
 
-Animal::Animal( Animal const& src ) : type(src.type) {
+Animal::Animal( Animal const& src ) {
 
+	*this = src;
 	std::cout	<< "Animal: Copy constructor called" << std::endl;	
 }
 

@@ -30,12 +30,3 @@ WrongCat&	WrongCat::operator=( WrongCat const& rhs ) {
 	type = rhs.type;
 	return (*this);
 }
-
-/* -------------------------------------------------------------------------- */
-/*                                  Function                                  */
-/* -------------------------------------------------------------------------- */
-
-void	WrongCat::makeSound( void ) {
-
-	std::cout << "~ROOOOOOOOOOOAR !~" << std::endl;
-}

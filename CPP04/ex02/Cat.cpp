@@ -11,8 +11,9 @@ Cat::Cat( void ) : AAnimal() {
 	std::cout	<< "Cat: Default constructor called" << std::endl;
 }
 
-Cat::Cat( Cat const& src ) : AAnimal(src), kittyBrain(new Brain()) {
+Cat::Cat( Cat const& src ) : AAnimal(src) {
 
+	*this = src;
 	std::cout	<< "Cat: Copy constructor called" << std::endl;
 }
 
@@ -30,7 +31,11 @@ Cat::~Cat( void ) {
 Cat&	Cat::operator=( Cat const& rhs ) {
 
 	type = rhs.type;
-	kittyBrain = rhs.kittyBrain;
+
+	if (kittyBrain)
+		delete kittyBrain;
+	kittyBrain = new Brain(*rhs.kittyBrain);
+
 	return (*this);
 }
 

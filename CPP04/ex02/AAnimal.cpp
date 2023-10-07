@@ -9,7 +9,7 @@ AAnimal::AAnimal( void ) : type("AAnimal") {
 	std::cout	<< "AAnimal: Default constructor called" << std::endl;
 }
 
-AAnimal::AAnimal( AAnimal const& src ) : type(src.type) {
+AAnimal::AAnimal( AAnimal const& src ) {
 
 	*this = src;
 	std::cout	<< "AAnimal: Copy constructor called" << std::endl;	
@@ -27,6 +27,7 @@ AAnimal::~AAnimal( void ) {
 AAnimal&	AAnimal::operator=( AAnimal const& rhs ) {
 
 	type = rhs.type;
+	
 	return (*this);
 }
 

@@ -11,10 +11,9 @@ Dog::Dog( void ) : Animal() {
 	std::cout	<< "Dog: Default constructor called" << std::endl;
 }
 
-Dog::Dog( Dog const& src ) :  Animal(src) {
+Dog::Dog( Dog const& src ) : Animal(src) {
 
-	type = src.type;
-	doggyBrain = new Brain;
+	*this = src;
 	std::cout	<< "Dog: Copy constructor called" << std::endl;
 }
 
@@ -31,6 +30,11 @@ Dog::~Dog( void ) {
 Dog&	Dog::operator=( Dog const& rhs ) {
 
 	type = rhs.type;
+
+	if (doggyBrain)
+		delete doggyBrain;
+	doggyBrain = new Brain(*rhs.doggyBrain);
+
 	return (*this);
 }
 

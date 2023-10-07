@@ -12,6 +12,4 @@ class	WrongCat : public virtual WrongAnimal {
 					~WrongCat( void );
 
 		WrongCat&	operator=( WrongCat const& rhs );
-
-		void		makeSound( void );
 };

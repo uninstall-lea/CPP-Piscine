@@ -21,8 +21,8 @@ int main()
 	std::cout << std::endl;
 
 	animal->makeSound();
-	cat->makeSound();
 	dog->makeSound();
+	cat->makeSound();
 	wrongAnimal->makeSound();
 	wrongCat->makeSound();
 	
@@ -33,5 +33,6 @@ int main()
 	delete cat;
 	delete wrongAnimal;
 	delete wrongCat;
+
 	return (0);
 }
