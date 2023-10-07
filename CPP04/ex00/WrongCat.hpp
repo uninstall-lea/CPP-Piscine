@@ -2,7 +2,7 @@
 
 #include "WrongAnimal.hpp"
 
-class	WrongCat : public virtual WrongAnimal {
+class	WrongCat : public WrongAnimal {
 
 	private:
 
@@ -12,4 +12,6 @@ class	WrongCat : public virtual WrongAnimal {
 					~WrongCat( void );
 
 		WrongCat&	operator=( WrongCat const& rhs );
+
+		void		makeSound( void );
 };

@@ -13,7 +13,7 @@ class	WrongAnimal {
 	public:
 						WrongAnimal( void );
 						WrongAnimal( WrongAnimal const& src );
-		virtual			~WrongAnimal( void );
+						~WrongAnimal( void );
 
 		WrongAnimal&	operator=( WrongAnimal const& rhs );
 
