@@ -21,5 +21,14 @@ int main( void )
 	for (int i = 0; i < 10; i++)
 		delete animals[i];
 
+	std::cout << std::endl << "---------------------" << std::endl;
+	std::cout << "\nTesting for deep copy..." << std::endl;
+	Cat* chat1 = new Cat();
+	chat1->setIdea(0, "time for lunch");
+	Cat* chat2 = new Cat(*chat1);
+	delete chat1;
+	std::cout << chat2->getIdea(0) << std::endl;
+	delete chat2;
+
 	return (0);
 }

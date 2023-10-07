@@ -1,19 +1,22 @@
 #pragma once
 
-#include "AAnimal.hpp"
+#include "Animal.hpp"
 #include "Brain.hpp"
 
-class	Dog : public AAnimal {
+class	Dog : public Animal {
 
 	private:
 		Brain*	doggyBrain;
 
 	public:
-				Dog( void );
-				Dog( Dog const& src );
-				~Dog( void );
+							Dog( void );
+							Dog( Dog const& src );
+							~Dog( void );
 
-		Dog&	operator=( Dog const& rhs );
+		Dog&				operator=( Dog const& rhs );
 
-		void	makeSound( void );
+		std::string const&	getIdea( int idx ) const;
+		void				setIdea( int idx, std::string newIdea );
+
+		void				makeSound( void );
 };

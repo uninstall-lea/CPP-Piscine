@@ -13,7 +13,9 @@ Dog::Dog( void ) : Animal() {
 
 Dog::Dog( Dog const& src ) : Animal(src) {
 
+	doggyBrain = NULL;
 	*this = src;
+	
 	std::cout	<< "Dog: Copy constructor called" << std::endl;
 }
 
@@ -45,4 +47,14 @@ Dog&	Dog::operator=( Dog const& rhs ) {
 void	Dog::makeSound( void ) {
 
 	std::cout << "~Woof, woof !~" << std::endl;
+}
+
+std::string const&	Dog::getIdea( int idx ) const {
+
+	return (doggyBrain->getIdea(idx));
+}
+
+void	Dog::setIdea( int idx, std::string newIdea ) {
+
+	doggyBrain->setIdea(idx, newIdea);
 }

@@ -9,12 +9,15 @@ class	Cat : public Animal {
 		Brain*	kittyBrain;
 
 	public:
-				Cat( void );
-				Cat( Cat const& src );
-				~Cat( void );
+							Cat( void );
+							Cat( Cat const& src );
+							~Cat( void );
 
-		Cat&	operator=( Cat const& rhs );
+		Cat&				operator=( Cat const& rhs );
 
-		void	makeSound( void );
+		std::string const&	getIdea( int idx ) const;
+		void				setIdea( int idx, std::string newIdea );
+
+		void				makeSound( void );
 
 };

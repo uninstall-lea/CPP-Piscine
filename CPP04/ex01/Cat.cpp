@@ -13,6 +13,7 @@ Cat::Cat( void ) : Animal() {
 
 Cat::Cat( Cat const& src ) : Animal(src) {
 
+	kittyBrain = NULL;
 	*this = src;
 
 	std::cout	<< "Cat: Copy constructor called" << std::endl;
@@ -47,4 +48,14 @@ Cat&	Cat::operator=( Cat const& rhs ) {
 void	Cat::makeSound( void ) {
 
 	std::cout << "~Meow, meow !~" << std::endl;
+}
+
+std::string const&	Cat::getIdea( int idx ) const {
+
+	return (kittyBrain->getIdea(idx));
+}
+
+void	Cat::setIdea( int idx, std::string newIdea ) {
+
+	kittyBrain->setIdea(idx, newIdea);
 }

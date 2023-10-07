@@ -1,20 +1,23 @@
 #pragma once
 
-#include "AAnimal.hpp"
+#include "Animal.hpp"
 #include "Brain.hpp"
 
-class	Cat : public AAnimal {
+class	Cat : public Animal {
 
 	private:
 		Brain*	kittyBrain;
 
 	public:
-				Cat( void );
-				Cat( Cat const& src );
-				~Cat( void );
+							Cat( void );
+							Cat( Cat const& src );
+							~Cat( void );
 
-		Cat&	operator=( Cat const& rhs );
+		Cat&				operator=( Cat const& rhs );
 
-		void	makeSound( void );
+		std::string const&	getIdea( int idx ) const;
+		void				setIdea( int idx, std::string newIdea );
+
+		void				makeSound( void );
 
 };
