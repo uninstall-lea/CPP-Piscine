@@ -13,18 +13,27 @@ AMateria::AMateria( std::string const& type ) {
 	this->type = type;
 }
 
+AMateria&	AMateria::operator=( AMateria const& rhs ) {
+
+	*this = *rhs.clone();
+
+	return (*this);
+}
+
 AMateria::~AMateria( void ) {
 
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                  Functions                                 */
-/* -------------------------------------------------------------------------- */
+void	AMateria::use( ICharacter& target ) {
 
-std::string	const&	AMateria::getType( void ) const {
+	if (getType() == "ice")
+		std::cout	<< "* shoots an ice bolt at " << target.getName() << " *" << std::endl;
 
+	else if (getType() == "cure")
+		std::cout	<< "* heals " << target.getName() << "'s wounds *" << std::endl;
 }
 
-void		AMateria::use( ICharacter& target ) {
+std::string const&	AMateria::getType() const {
 
+	return (type);
 }

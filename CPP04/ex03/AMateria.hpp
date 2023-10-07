@@ -4,6 +4,8 @@
 #include <iostream>
 #include "ICharacter.hpp"
 
+class ICharacter;
+
 class	AMateria {
 
 	protected:
@@ -12,7 +14,8 @@ class	AMateria {
 	public:
 							AMateria( void );
 							AMateria( std::string const& type );
-							~AMateria( void );
+							AMateria& operator=( AMateria const& rhs );
+		virtual				~AMateria( void );
 
 		std::string	const&	getType( void ) const;
 

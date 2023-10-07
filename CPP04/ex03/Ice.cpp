@@ -8,7 +8,7 @@ Ice::Ice( void ) : AMateria() {
 
 	type = "ice";
 }
-Ice::Ice( Ice const& src ) : AMateria(src) {
+Ice::Ice( Ice const& src ) : AMateria() {
 
 	*this = src;
 }
@@ -16,6 +16,7 @@ Ice::Ice( Ice const& src ) : AMateria(src) {
 Ice& Ice::operator=( Ice const& rhs ) {
 
 	type = rhs.type;
+
 	return (*this);
 }
 
@@ -30,10 +31,6 @@ Ice::~Ice( void ) {
 AMateria* Ice::clone( void ) const {
 
 	AMateria* materia = new Ice();
+
 	return (materia);
-}
-
-void Ice::use( ICharacter& target ) {
-
-	std::cout	<< "Ice: * shoots an ice bolt at " << target.getName() << " *" << std::endl;
 }

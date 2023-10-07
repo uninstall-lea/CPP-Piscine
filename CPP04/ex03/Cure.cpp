@@ -6,7 +6,7 @@
 
 Cure::Cure( void ) : AMateria() {
 
-	type = "Cure";
+	type = "cure";
 }
 Cure::Cure( Cure const& src ) : AMateria(src) {
 
@@ -16,6 +16,7 @@ Cure::Cure( Cure const& src ) : AMateria(src) {
 Cure& Cure::operator=( Cure const& rhs ) {
 
 	type = rhs.type;
+
 	return (*this);
 }
 
@@ -30,10 +31,6 @@ Cure::~Cure( void ) {
 AMateria* Cure::clone( void ) const {
 
 	AMateria* materia = new Cure();
+
 	return (materia);
-}
-
-void Cure::use( ICharacter& target ) {
-
-	std::cout	<< "Cure: * heals " << target.getName() << "'s wounds *" << std::endl;
 }

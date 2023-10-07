@@ -1,8 +1,8 @@
-NAME		=	AAnimal
+NAME		=	AMateria
 
-SRCS		=	main.cpp AMateria.cpp
+SRCS		=	main.cpp AMateria.cpp Character.cpp Cure.cpp Ice.cpp MateriaSource.cpp
 
-INCS		=	AMateria.hpp ICharacter.hpp
+INCS		=	AMateria.hpp ICharacter.hpp Character.hpp Cure.hpp Ice.hpp IMateriaSoucre.hpp MateriaSource.hpp
 
 CC			=	c++
 
