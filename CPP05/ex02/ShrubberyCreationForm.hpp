@@ -2,12 +2,37 @@
 
 #include <string>
 #include <iostream>
-#include "Form.hpp"
+#include "AForm.hpp"
 
-class	ShrubberyCreationForm : public Form {
+#define TREE "\
+		 /\\\n\
+        /  \\\n\
+       /    \\\n\
+      / +    \\\n\
+     /     ¤  \\\n\
+    /__     *__\\\n\
+      /  +   \\\n\
+     / *      \\\n\
+    /     *    \\\n\
+   /  +    ¤    \\\n\
+  /___        ___\\\n\
+     /     *  \\\n\
+    /  *       \\\n\
+   /         +  \\\n\
+  / +            \\\n\
+ /         *      \\\n\
+/__________________\\\n\
+        |  |\n\
+        |  |\n\
+        |  |\n\
+        ====\n"
+
+
+class	ShrubberyCreationForm : public AForm {
 
 	private:
 		std::string	_target;
+		void		execute( Bureaucrat const& executor ) const;
 
 	public:
 					ShrubberyCreationForm( std::string target );
@@ -15,30 +40,10 @@ class	ShrubberyCreationForm : public Form {
 					ShrubberyCreationForm& operator=( ShrubberyCreationForm const& rhs );
 					~ShrubberyCreationForm( void );
 
-	void			execute( Bureaucrat const& executor ) const;
-
+	class	ErrorOpeningFile : public std::exception {
+		public:
+			virtual const char 	*what() const throw() {
+				return ("Error in the process of opening the file");
+			}
+	};
 };
-
-/*----------------------------------------------------------------------------*/
-
-#include "ShrubberyCreationForm.hpp"
-
-ShrubberyCreationForm::ShrubberyCreationForm( void ) {
-
-}
-
-ShrubberyCreationForm::ShrubberyCreationForm( ShrubberyCreationForm const& src ) {
-
-	*this = src;
-}
-
-ShrubberyCreationForm::~ShrubberyCreationForm( void ) {
-
-}
-
-ShrubberyCreationForm&	ShrubberyCreationForm::operator=( ShrubberyCreationForm const& rhs ) {
-
-	return (*this);
-}
-
-/*----------------------------------------------------------------------------*/

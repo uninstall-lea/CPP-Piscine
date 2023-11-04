@@ -13,21 +13,25 @@ Form::Form ( std::string name, int signGrade, int execGrade )
 	: _name(name), _isSigned(false), _signGrade(signGrade), _execGrade(execGrade) {
 
 	if (signGrade < 1 || execGrade < 1)
-		throw Form::GradeTooHighException();
+		throw GradeTooHighException();
 	else if (signGrade > 150 || execGrade > 150)
-		throw Form::GradeTooLowException();
+		throw GradeTooLowException();
 }
 
-Form::Form( Form const& src ) {
+Form::Form( Form const& src )
+	: _name(src.getName()), _signGrade(src.getSignGrade()), _execGrade(src.getExecGrade()) {
 
-	*this = src;
+	if (src.getSignGrade() < 1 || src.getExecGrade() < 1)
+		throw GradeTooHighException();
+	else if (src.getSignGrade() > 150 || src.getExecGrade() > 150)
+		throw GradeTooLowException();
+	else
+		*this = src;
 }
 
 Form&	Form::operator=( Form const& rhs ) {
 
-	_isSigned = rhs._isSigned;
-	_signGrade = rhs._signGrade;
-	_execGrade = rhs._execGrade;
+	_isSigned = rhs.getStatus();
 	return (*this);
 }
 
@@ -61,11 +65,11 @@ int const&	Form::getExecGrade( void ) const {
 
 void	Form::beSigned( Bureaucrat const& src ) {
 
-	if (_isSigned == true)
-		throw Form::AlreadySignException();
+	if (getStatus() == true)
+		throw AlreadySignException();
 
-	else if (src.getGrade() > _signGrade)
-		throw Form::GradeTooLowException();
+	else if (src.getGrade() > getSignGrade())
+		throw GradeTooLowException();
 
 	else
 		_isSigned = true;
@@ -77,17 +81,17 @@ void	Form::beSigned( Bureaucrat const& src ) {
 
 const char*	Form::GradeTooHighException::what( void ) const throw() {
 
-	return ("bureaucrat grade is too high for this form !");
+	return ("Form grade is too high!");
 }
 
 const char*	Form::GradeTooLowException::what( void ) const throw() {
 
-	return ("bureaucrat grade is too low for this form !");
+	return ("Form grade is too low!");
 }
 
 const char*	Form::AlreadySignException::what( void ) const throw() {
 
-	return ("this form is already signed !");
+	return ("This form is already signed !");
 }
 
 /* -------------------------------------------------------------------------- */

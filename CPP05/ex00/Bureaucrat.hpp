@@ -7,7 +7,7 @@
 class	Bureaucrat {
 
 	private:
-		std::string			_name;
+		std::string	const	_name;
 		int					_grade;
 
 
@@ -21,13 +21,12 @@ class	Bureaucrat {
 		std::string const&	getName( void ) const;
 		int const&			getGrade( void ) const;
 
-		std::string			verifyAccess( int const& grade );
-		void				upGrade(void);
-		void				downGrade(void);
+		void				upGrade( void );
+		void				downGrade( void );
 
 /* ------------------------------- Exceptions ------------------------------- */
 
-		class	GradeTooHighExecption : public std::exception {
+		class	GradeTooHighException : public std::exception {
 			public:
 				virtual const char*	what( void ) const throw();
 		};

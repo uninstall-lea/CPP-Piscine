@@ -4,14 +4,14 @@
 /*                          Constructor / Destructor                          */
 /* -------------------------------------------------------------------------- */
 
-Dog::Dog( void ) : Animal() {
+Dog::Dog( void ) : AAnimal() {
 
 	type = "Dog";
 	doggyBrain = new Brain;
 	std::cout	<< "Dog: Default constructor called" << std::endl;
 }
 
-Dog::Dog( Dog const& src ) : Animal(src) {
+Dog::Dog( Dog const& src ) : AAnimal(src) {
 
 	doggyBrain = NULL;
 	*this = src;

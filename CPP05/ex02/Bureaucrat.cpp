@@ -8,27 +8,29 @@ Bureaucrat::Bureaucrat( void ) : _name("noName"), _grade(150) {
 
 }
 
-Bureaucrat::Bureaucrat (std::string name, int grade ) {
+Bureaucrat::Bureaucrat (std::string name, int grade ) : _name(name) {
 
-	if (verifyAccess(grade) == "Not Granted")
-		return;
-
-	_name = name;
-	_grade = grade;
+	if (grade < 1)
+		throw GradeTooHighException();
+	else if (grade > 150)
+		throw GradeTooLowException();
+	else
+		_grade = grade;
+	
 }
 
-Bureaucrat::Bureaucrat( Bureaucrat const& src ) {
+Bureaucrat::Bureaucrat( Bureaucrat const& src ) : _name(src.getName()) {
 
-	if (verifyAccess(src._grade) == "Granted")
+	if (src.getGrade() < 1)
+		throw GradeTooHighException();
+	else if (src.getGrade() > 150)
+		throw GradeTooLowException();
+	else
 		*this = src;
 }
 
 Bureaucrat&	Bureaucrat::operator=( Bureaucrat const& rhs ) {
 	
-	if (verifyAccess(rhs._grade) == "Not Granted")
-		return (*this);
-
-	_name = rhs.getName();
 	_grade = rhs.getGrade();
 	return (*this);
 }
@@ -51,47 +53,56 @@ int const&	Bureaucrat::getGrade( void ) const {
 	return (_grade);
 }
 
-std::string	Bureaucrat::verifyAccess( int const& grade ) {
-
-	if ( grade < 1 )
-		throw Bureaucrat::GradeTooHighExecption();
-	else if ( grade > 150 )
-		throw Bureaucrat::GradeTooLowException();
-	else
-		return ("Granted");
-	return ("Not Granted");
-}
 
 void	Bureaucrat::upGrade(void) {
 
-	if (verifyAccess(_grade - 1) == "Granted")
+	if (_grade == 1)
+		throw GradeTooHighException();
+	else
 		_grade--;
 }
 
 void	Bureaucrat::downGrade(void) {
-	if (verifyAccess(_grade + 1) == "Granted")
+
+	if (_grade == 150)
+		throw GradeTooLowException();
+	else
 		_grade++;
 }
 
-void	Bureaucrat::signForm( Form& form ) {
+void	Bureaucrat::signForm( AForm& form ) {
 
-	try
-	{
+	try {
 		form.beSigned(*this);
-		std::cout	<< _name << " signed form: " << form.getName() << std::endl;
+		std::cout	<< "Bureaucrat " << _name
+					<< " signed form " << form.getName() << std::endl;
 	}
-	catch(std::exception& e)
-	{
-		std::cout	<< _name << " couldn't sign *" << form.getName()
-					<< "* because: " << e.what() << std::endl;
+	catch (std::exception& e) {
+		std::cout	<< "Bureaucrat " << _name
+					<< " could not sign form because his grade is too low" << std::endl;
 	}
 }
+
+void	Bureaucrat::executeForm( AForm const& form ) {
+
+	try
+	 {
+		form.execute(*this);
+		std::cout	<< "Bureaucrat " << _name
+					<< " executed form " << form.getName() << std::endl;
+	}
+	catch (std::exception& e) {
+		std::cout	<< "Bureaucrat " << _name
+					<< " could not execute form: " << e.what() << std::endl;
+	}
+}
+
 
 /* -------------------------------------------------------------------------- */
 /*                                 Exceptions                                 */
 /* -------------------------------------------------------------------------- */
 
-const char*	Bureaucrat::GradeTooHighExecption::what( void ) const throw() {
+const char*	Bureaucrat::GradeTooHighException::what( void ) const throw() {
 
 	return ("Bureaucrat grade is too high !");
 }

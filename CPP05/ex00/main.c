@@ -1,82 +1,56 @@
 #include "Bureaucrat.hpp"
 
-void	test1(void)
-{
-	std::cout << "test 1" << std::endl;
-	Bureaucrat	Hugo = Bureaucrat("Hugo", 0);
-}
-
-void	test2(void)
-{
-	std::cout << "test 2" << std::endl;
-	Bureaucrat	Yoseph = Bureaucrat("Yoseph", 151);
-}
-
-void	test3(void)
-{
-	std::cout << "test 3" << std::endl;
-	Bureaucrat	Jean = Bureaucrat("Jean", 6);
-
-	std::cout << Jean;
-	for (int i = 0; i < 6; i++)
-	{
-		Jean.upGrade();
-		std::cout << Jean;
-	}
-}
-
-void	test4(void)
-{
-	std::cout << "test 4" << std::endl;
-	Bureaucrat	Lea = Bureaucrat("Lea", 145);
-
-	std::cout << Lea;
-	for (int i = 0; i < 6; i++)
-	{
-		Lea.downGrade();
-		std::cout << Lea;
-	}
-
-}
-
 int	main(void)
 {
-	try
-	{
-		test1();
+	std::cout << "Test#1" << std::endl;
+	try {
+		Bureaucrat paul("Paul", -1);	
+	} catch (std::exception &e) {
+		std::cout << e.what() << std::endl;
 	}
-	catch (std::exception& e)
-	{
-		std::cerr << e.what() << std::endl;
+	
+	std::cout << std::endl << std::endl;
+	std::cout << "Test#2" << std::endl;
+	try {
+		Bureaucrat paul("Paul", 151);	
+	} catch (std::exception &e) {
+		std::cout << e.what() << std::endl;
 	}
-	std::cout << std::endl;
+	
+	std::cout << std::endl << std::endl;
+	std::cout << "Test#3" << std::endl;
+	try {
+		Bureaucrat paul("Paul", 150);
+		std::cout << paul;
+		paul.downGrade();
+	} catch (std::exception &e) {
+		std::cout << e.what() << std::endl;
+	}
 
-	try
-	{
-		test2();
+	std::cout << std::endl << std::endl;
+	std::cout << "Test#4" << std::endl;
+	try {
+		Bureaucrat paul("Paul", 1);
+		std::cout << paul;
+		paul.upGrade();
+	} catch (std::exception &e) {
+		std::cout << e.what() << std::endl;
 	}
-	catch (std::exception& e)
-	{
-		std::cerr << e.what() << std::endl;
-	}
-	std::cout << std::endl;
 
-	try
-	{
-		test3();
-	}
-	catch (std::exception& e)
-	{
-		std::cerr << e.what() << std::endl;
-	}
-	std::cout << std::endl;
-
-	try
-	{
-		test4();
-	}
-	catch (std::exception& e)
-	{
-		std::cerr << e.what() << std::endl;
+	std::cout << std::endl << std::endl;
+	std::cout << "Test#5" << std::endl;
+	try {
+		Bureaucrat paul("Paul", 5);
+		std::cout << paul;
+		paul.upGrade();
+		std::cout << paul;
+		paul.upGrade();
+		std::cout << paul;
+		paul.upGrade();
+		std::cout << paul;
+		paul.downGrade();
+		std::cout << paul;
+	} catch (std::exception &e) {
+		std::cout << e.what() << std::endl;
 	}
 }

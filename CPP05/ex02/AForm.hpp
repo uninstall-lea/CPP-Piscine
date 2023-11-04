@@ -3,24 +3,27 @@
 #include <string>
 #include <iomanip>
 #include <iostream>
+#include <fstream>
 #include "Bureaucrat.hpp"
 
-class	Bureaucrat;
+class Bureaucrat;
 
-class	Form {
+class	AForm {
 
 	private:
 		std::string const	_name;
 		bool				_isSigned;
-		int					_signGrade;
-		int					_execGrade;
+		int const			_signGrade;
+		int	const			_execGrade;
+		virtual void		execute( Bureaucrat const& executor ) const = 0;
+
 
 	public:
-							Form( void );
-							Form ( std::string name, int signGrade, int execGrade );
-							Form( Form const& src );
-							Form& operator=( Form const& rhs );
-	virtual					~Form( void );
+							AForm( void );
+							AForm ( std::string name, int signGrade, int execGrade );
+							AForm( AForm const& src );
+							AForm& operator=( AForm const& rhs );
+	virtual					~AForm( void );
 
 	std::string const&		getName( void ) const;
 	bool const&				getStatus( void ) const;
@@ -28,7 +31,6 @@ class	Form {
 	int const&				getExecGrade( void ) const;
 
 	void					beSigned( Bureaucrat const& src );
-	virtual void 			execute( Bureaucrat const & executor ) const = 0;
 
 /* ------------------------------- Exceptions ------------------------------- */
 
@@ -47,6 +49,11 @@ class	Form {
 				virtual const char*	what(void) const throw();
 		};
 
+		class	FormNotSigned : public std::exception {
+			public:
+				virtual const char*	what(void) const throw();
+		};
+
 };
 
-std::ostream&	operator<<(std::ostream& out, Form const & rhs);
+std::ostream&	operator<<(std::ostream& out, AForm const & rhs);

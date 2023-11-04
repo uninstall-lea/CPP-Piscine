@@ -1,37 +1,41 @@
-#include "Form.hpp"
+#include "AForm.hpp"
 
 /* -------------------------------------------------------------------------- */
 /*                          Constructor / Destructor                          */
 /* -------------------------------------------------------------------------- */
 
-Form::Form( void )
+AForm::AForm( void )
 	: _name("noName"), _isSigned(false), _signGrade(150), _execGrade(150) {
 
 }
 
-Form::Form ( std::string name, int signGrade, int execGrade )
+AForm::AForm ( std::string name, int signGrade, int execGrade )
 	: _name(name), _isSigned(false), _signGrade(signGrade), _execGrade(execGrade) {
 
 	if (signGrade < 1 || execGrade < 1)
-		throw Form::GradeTooHighException();
+		throw GradeTooHighException();
 	else if (signGrade > 150 || execGrade > 150)
-		throw Form::GradeTooLowException();
+		throw GradeTooLowException();
 }
 
-Form::Form( Form const& src ) {
+AForm::AForm( AForm const& src )
+	: _name(src.getName()), _signGrade(src.getSignGrade()), _execGrade(src.getExecGrade()) {
 
-	*this = src;
+	if (src.getSignGrade() < 1 || src.getExecGrade() < 1)
+		throw GradeTooHighException();
+	else if (src.getSignGrade() > 150 || src.getExecGrade() > 150)
+		throw GradeTooLowException();
+	else
+		*this = src;
 }
 
-Form&	Form::operator=( Form const& rhs ) {
+AForm&	AForm::operator=( AForm const& rhs ) {
 
-	_isSigned = rhs._isSigned;
-	_signGrade = rhs._signGrade;
-	_execGrade = rhs._execGrade;
+	_isSigned = rhs.getStatus();
 	return (*this);
 }
 
-Form::~Form( void ) {
+AForm::~AForm( void ) {
 
 }
 
@@ -39,62 +43,77 @@ Form::~Form( void ) {
 /*                                  Functions                                 */
 /* -------------------------------------------------------------------------- */
 
-std::string const&	Form::getName( void ) const {
+std::string const&	AForm::getName( void ) const {
 
 	return (_name);
 }
 
-bool const&	Form::getStatus( void ) const {
+bool const&	AForm::getStatus( void ) const {
 
 	return (_isSigned);
 }
 
-int const&	Form::getSignGrade( void ) const {
+int const&	AForm::getSignGrade( void ) const {
 
 	return (_signGrade);
 }
 
-int const&	Form::getExecGrade( void ) const {
+int const&	AForm::getExecGrade( void ) const {
 
 	return (_execGrade);
 }
 
-void	Form::beSigned( Bureaucrat const& src ) {
+void	AForm::beSigned( Bureaucrat const& src ) {
 
-	if (_isSigned == true)
-		throw Form::AlreadySignException();
+	if (getStatus() == true)
+		throw AlreadySignException();
 
-	else if (src.getGrade() > _signGrade)
-		throw Form::GradeTooLowException();
+	else if (src.getGrade() > getSignGrade())
+		throw GradeTooLowException();
 
 	else
 		_isSigned = true;
+}
+
+void	AForm::execute( Bureaucrat const &executor ) const {
+
+	if (getStatus() == false)
+		throw FormNotSigned();
+	else if (executor.getGrade() > getExecGrade())
+		throw GradeTooLowException();
+	else
+		this->execute(executor);
 }
 
 /* -------------------------------------------------------------------------- */
 /*                                 Exceptions                                 */
 /* -------------------------------------------------------------------------- */
 
-const char*	Form::GradeTooHighException::what( void ) const throw() {
+const char*	AForm::GradeTooHighException::what( void ) const throw() {
 
-	return ("bureaucrat grade is too high for this form !");
+	return ("Form grade is too high!");
 }
 
-const char*	Form::GradeTooLowException::what( void ) const throw() {
+const char*	AForm::GradeTooLowException::what( void ) const throw() {
 
-	return ("bureaucrat grade is too low for this form !");
+	return ("Form grade is too low!");
 }
 
-const char*	Form::AlreadySignException::what( void ) const throw() {
+const char*	AForm::AlreadySignException::what( void ) const throw() {
 
-	return ("this form is already signed !");
+	return ("This form is already signed !");
+}
+
+const char*	AForm::AlreadySignException::what( void ) const throw() {
+
+	return ("This form is not signed !");
 }
 
 /* -------------------------------------------------------------------------- */
 /*                                   Ostream                                  */
 /* -------------------------------------------------------------------------- */
 
-std::ostream&	operator<<(std::ostream& out, Form const & rhs)
+std::ostream&	operator<<(std::ostream& out, AForm const & rhs)
 {
 	std::string	status;
 

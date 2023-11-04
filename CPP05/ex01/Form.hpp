@@ -5,15 +5,15 @@
 #include <iostream>
 #include "Bureaucrat.hpp"
 
-class	Bureaucrat;
+class Bureaucrat;
 
 class	Form {
 
 	private:
 		std::string const	_name;
 		bool				_isSigned;
-		int					_signGrade;
-		int					_execGrade;
+		int const			_signGrade;
+		int	const			_execGrade;
 
 	public:
 							Form( void );
