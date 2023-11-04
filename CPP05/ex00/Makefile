@@ -6,7 +6,7 @@ INCS		=	Bureaucrat.hpp
 
 CC			=	c++
 
-CFLAGS		=	-Wall -Werror -Wextra -Wshadow -Wno-shadow -std=c++98 -g3
+CFLAGS		=	-Wall -Werror -Wextra -std=c++98 -g3
 
 RM			=	rm -f
 

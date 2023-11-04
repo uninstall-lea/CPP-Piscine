@@ -23,7 +23,7 @@ class	Form {
 							~Form( void );
 
 	std::string const&		getName( void ) const;
-	bool const&				getStatus( void ) const;
+	bool const&				getIsSigned( void ) const;
 	int const&				getSignGrade( void ) const;
 	int const&				getExecGrade( void ) const;
 

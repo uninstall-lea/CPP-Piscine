@@ -1,12 +1,12 @@
 NAME		=	bureaucrat
 
-SRCS		=	main.cpp Bureaucrat.cpp Form.cpp ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp
+SRCS		=	main.cpp Bureaucrat.cpp AForm.cpp ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp
 
-INCS		=	Bureaucrat.hpp Form.hpp ShrubberyCreationForm.hpp RobotomyRequestForm.hpp PresidentialPardonForm.hpp
+INCS		=	Bureaucrat.hpp AForm.hpp ShrubberyCreationForm.hpp RobotomyRequestForm.hpp PresidentialPardonForm.hpp
 
 CC			=	c++
 
-CFLAGS		=	-Wall -Werror -Wextra -Wshadow -Wno-shadow -std=c++98 -g3
+CFLAGS		=	-Wall -Werror -Wextra -std=c++98 -g3
 
 RM			=	rm -f
 
@@ -21,7 +21,7 @@ $(NAME)		:	$(OBJ)
 				$(CC) $(CFLAGS) $(OBJ) -o $(NAME) 
 		
 clean		:	
-				$(RM) $(OBJ)
+				$(RM) $(OBJ) Default_shrubbery
 
 fclean		:	clean
 				$(RM) $(NAME)

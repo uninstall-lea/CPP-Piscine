@@ -31,7 +31,7 @@ Form::Form( Form const& src )
 
 Form&	Form::operator=( Form const& rhs ) {
 
-	_isSigned = rhs.getStatus();
+	_isSigned = rhs.getIsSigned();
 	return (*this);
 }
 
@@ -48,7 +48,7 @@ std::string const&	Form::getName( void ) const {
 	return (_name);
 }
 
-bool const&	Form::getStatus( void ) const {
+bool const&	Form::getIsSigned( void ) const {
 
 	return (_isSigned);
 }
@@ -65,11 +65,11 @@ int const&	Form::getExecGrade( void ) const {
 
 void	Form::beSigned( Bureaucrat const& src ) {
 
-	if (getStatus() == true)
+	if (getIsSigned() == true)
 		throw AlreadySignException();
 
 	else if (src.getGrade() > getSignGrade())
-		throw GradeTooLowException();
+		throw GradeTooHighException();
 
 	else
 		_isSigned = true;
@@ -102,7 +102,7 @@ std::ostream&	operator<<(std::ostream& out, Form const & rhs)
 {
 	std::string	status;
 
-	if (rhs.getStatus() == true)
+	if (rhs.getIsSigned() == true)
 		status = "Signed";
 	else
 		status = "Not signed";

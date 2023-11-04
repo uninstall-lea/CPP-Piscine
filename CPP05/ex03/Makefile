@@ -1,8 +1,8 @@
 NAME		=	bureaucrat
 
-SRCS		=	main.cpp Bureaucrat.cpp Form.cpp
+SRCS		=	main.cpp Bureaucrat.cpp AForm.cpp ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp Intern.cpp
 
-INCS		=	Bureaucrat.hpp Form.hpp
+INCS		=	Bureaucrat.hpp AForm.hpp ShrubberyCreationForm.hpp RobotomyRequestForm.hpp PresidentialPardonForm.hpp Intern.hpp
 
 CC			=	c++
 
@@ -21,7 +21,7 @@ $(NAME)		:	$(OBJ)
 				$(CC) $(CFLAGS) $(OBJ) -o $(NAME) 
 		
 clean		:	
-				$(RM) $(OBJ)
+				$(RM) $(OBJ) *_shrubbery
 
 fclean		:	clean
 				$(RM) $(NAME)
