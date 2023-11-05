@@ -34,7 +34,7 @@ int	main(void)
 	std::cout << std::endl << std::endl;
 	std::cout << "Test#3" << std::endl;
 	try {
-		ShrubberyCreationForm form1("Default");
+		ShrubberyCreationForm form1;
 		std::cout << form1;
 		Bureaucrat paul("Paul", 138);	
 		paul.signForm(form1);
