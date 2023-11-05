@@ -31,7 +31,6 @@ Array<T>::~Array( void ) {
 template<typename T>
 Array<T>&	Array<T>::operator=( Array const& rhs ) {
 
-
 	delete[] _tab;
 
 	_tab = new T[rhs.size()];
