@@ -1,6 +1,6 @@
-NAME		=	scalar
+NAME		=	convert
 
-SRCS		=	ScalarConverter.cpp
+SRCS		=	main.cpp ScalarConverter.cpp
 
 INCS		=	ScalarConverter.cpp
 
