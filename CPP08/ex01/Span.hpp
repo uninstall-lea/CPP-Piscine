@@ -11,7 +11,7 @@ class	Span {
 		unsigned int		_size;
 
 	public:
-							Span( void );
+							Span( void ){};
 							Span( unsigned int const N );
 							Span( Span const& src );
 							~Span( void );
@@ -24,11 +24,7 @@ class	Span {
 
 };
 
-/*----------------------------------------------------------------------------*/
-
 #include "Span.hpp"
-
-Span::Span( void );
 
 Span::Span( unsigned int const N ): _size(N) {
 
@@ -37,6 +33,8 @@ Span::Span( unsigned int const N ): _size(N) {
 
 Span::Span( Span const& src ) {
 
+	_vec.resize(src._size);
+	_size = src._size;
 }
 
 Span::~Span( void ) {
@@ -45,6 +43,10 @@ Span::~Span( void ) {
 
 Span&	Span::operator=( Span const& rhs ) {
 
+	_vec.resize(rhs._size);
+	_size = rhs._size;
+
+	return (*this);
 }
 
 /*----------------------------------------------------------------------------*/
