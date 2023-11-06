@@ -1,8 +1,8 @@
-NAME		=	convert
+NAME		=	serializer
 
-SRCS		=	main.cpp ScalarConverter.cpp
+SRCS		=	main.cpp Serializer.cpp
 
-INCS		=	ScalarConverter.hpp
+INCS		=	Serializer.hpp
 
 CC			=	c++
 
