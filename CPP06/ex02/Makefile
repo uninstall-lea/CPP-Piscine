@@ -1,8 +1,8 @@
-NAME		=	serializer
+NAME		=	base
 
-SRCS		=	main.cpp S Serializer.cpp
+SRCS		=	main.cpp
 
-INCS		=	Serializer.hpp
+INCS		=	Base.hpp
 
 CC			=	c++
 
