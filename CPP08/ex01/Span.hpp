@@ -11,7 +11,7 @@ class	Span {
 		unsigned int		_size;
 
 	public:
-							Span( void ){};
+							Span( void );
 							Span( unsigned int const N );
 							Span( Span const& src );
 							~Span( void );
@@ -26,27 +26,32 @@ class	Span {
 
 #include "Span.hpp"
 
-Span::Span( unsigned int const N ): _size(N) {
+Span::Span( void ) : _size(0) {}
 
-	_vec.resize(_size);
-}
+Span::Span( unsigned int const N ): _size(N) {}
 
 Span::Span( Span const& src ) {
 
-	_vec.resize(src._size);
+	_vec.clear();
+	_vec.insert(src._vec.begin(), src._size);
 	_size = src._size;
 }
 
-Span::~Span( void ) {
-
-}
+Span::~Span( void ) {}
 
 Span&	Span::operator=( Span const& rhs ) {
 
-	_vec.resize(rhs._size);
+	_vec.clear();
+	_vec.insert(rhs._vec.begin(), rhs._size);
 	_size = rhs._size;
-
 	return (*this);
 }
 
 /*----------------------------------------------------------------------------*/
+
+void	Span::addNumber( int n ) {
+
+		std::iterarator it = _vec.begin();	
+}
+int		shortestSpan( void );
+int		longestSpan( void );
