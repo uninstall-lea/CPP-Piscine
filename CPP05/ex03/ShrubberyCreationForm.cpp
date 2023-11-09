@@ -29,7 +29,7 @@ void	ShrubberyCreationForm::beExecuted( void ) const {
 	std::string		outFileName = _target + "_shrubbery";
 
 	outFile.open(outFileName.c_str());
-	if (outFile.fail())
+	if (!outFile.good())
 		throw ErrorOpeningFile();
 	outFile << TREE;
 	outFile.close();

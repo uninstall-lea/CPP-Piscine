@@ -25,8 +25,11 @@ RobotomyRequestForm&	RobotomyRequestForm::operator=( RobotomyRequestForm const& 
 
 void	RobotomyRequestForm::beExecuted( void ) const {
 
+	static int	init = 0;
+
 	std::cout << "* DzzzZzzzZZzDzzzzzZZZz *" << std::endl;
-	srand(time(0));
+	if (init++ == 0)
+		srand(time(0));
 	if (rand() % 2)
 		std::cout << _target << " has been successfully robotimized" << std::endl;
 	else
