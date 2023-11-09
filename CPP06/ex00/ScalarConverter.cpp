@@ -1,5 +1,5 @@
 #include "ScalarConverter.hpp"
-
+#include <iomanip>
 /* -------------------------------------------------------------------------- */
 /*                                Checking type                               */
 /* -------------------------------------------------------------------------- */
@@ -94,9 +94,9 @@ void	ScalarConverter::print( std::string literal ) {
 		else if (literal.size() == 3)
 			c = literal[1];
 
-		std::cout << "char: '"	<< c					 << "'"	<< std::endl;
+		std::cout << "char: '"	<< c << "'"						<< std::endl;
 		std::cout << "int: "	<< static_cast<int>(c)			<< std::endl;
-		std::cout << "float: "	<< static_cast<float>(c) << "f"	<< std::endl;
+		std::cout << std::fixed << std::setprecision(1) 		<< "float: " << static_cast<float>(c) << "f" << std::endl;
 		std::cout << "double: "	<< static_cast<double>(c)		<< std::endl;
 
 	}
@@ -112,7 +112,7 @@ void	ScalarConverter::print( std::string literal ) {
 		else if (i < 32 || i > 126)
 			std::cout << "char: Not displayable"			<< std::endl;
 		else
-			std::cout << "char: '" << static_cast<char>(i) << "'" << std::endl;
+			std::cout << "char: '" << static_cast<char>(i)	<< "'" << std::endl;
 
 		/* checking int */
 		if (atol(literal.c_str()) < INT_MIN || atol(literal.c_str()) > INT_MAX)
@@ -121,8 +121,8 @@ void	ScalarConverter::print( std::string literal ) {
 			std::cout << "int: " 	<< i	<< std::endl;
 
 		/* not check */
-		std::cout << "float: "	<< static_cast<float>(i) << "f" << std::endl;
-		std::cout << "double: "	<< static_cast<double>(i)		<< std::endl;
+		std::cout << std::fixed << std::setprecision(1)		<< "float: " << static_cast<float>(i) << "f" << std::endl;
+		std::cout << "double: "	<< static_cast<double>(i)	<< std::endl;
 	}
 
 	//Float ---------------------------------
@@ -136,7 +136,7 @@ void	ScalarConverter::print( std::string literal ) {
 		else if (f < 32 || f > 126)
 			std::cout << "char: Not displayable"			<< std::endl;
 		else
-			std::cout << "char: '" << static_cast<char>(f) << "'" << std::endl;
+			std::cout << "char: '" << static_cast<char>(f)	<< "'" << std::endl;
 
 		/* checking int */
 		if (f < INT_MIN || f > INT_MAX)
@@ -145,7 +145,7 @@ void	ScalarConverter::print( std::string literal ) {
 			std::cout << "int: " << static_cast<int>(f)		<< std::endl;
 
 		/* no check */
-		std::cout << "float: "	<< f		<< "f"			<< std::endl;
+		std::cout << std::fixed << std::setprecision(1) 	<< "float: " << f << "f" << std::endl;
 		std::cout << "double: "	<< static_cast<double>(f)	<< std::endl;
 	}
 
@@ -154,7 +154,6 @@ void	ScalarConverter::print( std::string literal ) {
 	else if (isDouble(literal)) {
 		d = atof(literal.c_str());
 
-		std::cout << "here" << std::endl;
 		/* checking char */
 		if (d < 0 || d > 127)
 			std::cout << "char: Impossible"					<< std::endl;
@@ -173,7 +172,7 @@ void	ScalarConverter::print( std::string literal ) {
 		if (d < FLT_MIN || d > FLT_MAX)
 			std::cout << "float: Impossible"				<< std::endl;
 		else
-			std::cout << "float: " << static_cast<float>(d)	<< std::endl;
+			std::cout << std::fixed << std::setprecision(1) << "float: " << static_cast<float>(d) << "f" << std::endl;
 
 		/* no check */
 		std::cout << "double: "	<< d						<< std::endl;
