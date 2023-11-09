@@ -1,8 +1,8 @@
-NAME		=	convert
+NAME		=	base
 
-SRCS		=	main.cpp ScalarConverter.cpp
+SRCS		=	main.cpp
 
-INCS		=	ScalarConverter.hpp
+INCS		=	Base.hpp
 
 CC			=	c++
 
