@@ -58,3 +58,10 @@ unsigned int const&	Array<T>::size( void ) const {
 
 	return (_size);
 }
+
+template <typename T>
+void	printArray(Array<T> &ref) {
+	
+	for (unsigned int i = 0; i < ref.size(); i++)	
+		std::cout << ref[i] << std::endl;
+}
