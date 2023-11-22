@@ -10,6 +10,8 @@ Array<T>::Array( void ) : _tab(new T[0]), _size(0) {
 template<typename T>
 Array<T>::Array( unsigned int n ) : _tab(new T[n]), _size(n) {
 
+	for (unsigned int i = 0; i < n; i++)
+		_tab[i] = 0;
 }
 
 template<typename T>

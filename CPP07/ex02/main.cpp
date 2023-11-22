@@ -27,9 +27,10 @@ void	test3(void)
 	std::cout << std::endl;
 	std::cout << "Test 3" << std::endl;
 	Array<bool> test = Array<bool>(10);
-	{
-		Array<bool> test2 = Array<bool>(test);
-	}
+	test[0] = true, test[9] = true;
+	Array<bool> test2 = Array<bool>(test);
+	for (int i = 0; i < 10; i++)
+			std::cout << test2[i] << std::endl;
 }
 
 void	test4(void)
@@ -37,10 +38,11 @@ void	test4(void)
 	std::cout << std::endl;
 	std::cout << "Test 4" << std::endl;
 	Array<bool> test = Array<bool>(10);
-	{
-		Array<bool> test2 = test;
-	}
-	
+	test[0] = true, test[9] = true;
+	Array<bool> test2 = test;
+	for (int i = 0; i < 10; i++)
+			std::cout << test2[i] << std::endl;
+
 }
 
 int main(void)
