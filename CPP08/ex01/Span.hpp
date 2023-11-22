@@ -20,20 +20,20 @@ class	Span {
 							Span& operator=( Span const& rhs );
 
 		void				addNumber( int n );
-		void				addNumber( std::vector<int>::iterator first, std::vector<int>::iterator last, int n );
+		void				addNumber( std::vector<int>::iterator first, std::vector<int>::iterator last );
 		int					shortestSpan( void );
 		int					longestSpan( void );
 
 /* -------------------------------------------------------------------------- */
 
-		class	MaxElementsReached : public std::exception {
+		class	MaxElementsReachedException : public std::exception {
 			public :
 				virtual const char* what() const throw() {
 					return ("Maximum elements reached for this array");
 				}
 		};
 
-		class	NotEnoughElemToCompute : public std::exception {
+		class	NotEnoughElemToComputeException : public std::exception {
 			public :
 				virtual const char* what() const throw() {
 					return ("Not enough elements in the array to compute shortestSpan or longestSpan");

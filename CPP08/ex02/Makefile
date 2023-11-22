@@ -1,8 +1,8 @@
-NAME		=	easyfind
+NAME		=	span
 
 SRCS		=	main.cpp
 
-INCS		=	easyfind.hpp
+INCS		=	MutantStack.hpp
 
 CC			=	c++
 

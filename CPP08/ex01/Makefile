@@ -1,8 +1,8 @@
 NAME		=	span
 
-SRCS		=	main.cpp
+SRCS		=	main.cpp Span.cpp
 
-INCS		=	easyfind.hpp
+INCS		=	Span.hpp
 
 CC			=	c++
 

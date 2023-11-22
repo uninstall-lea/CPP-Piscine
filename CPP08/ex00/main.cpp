@@ -71,7 +71,7 @@ int	main()
 			vect.push_back(90);
 			vect.push_back(97);
 
-			int	res = easyfind(vect, 41);
+			int	res = easyfind(vect, 0);
 			std::cout << res << std::endl;
 		} catch (NumberNotFound &e) {
 			std::cout << e.what() << std::endl;
