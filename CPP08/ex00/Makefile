@@ -1,8 +1,8 @@
 NAME		=	easyfind
 
-SRCS		=	main.cpp
+SRCS		=	main.cpp Span.cpp
 
-INCS		=	easyfind.hpp
+INCS		=	Span.hpp
 
 CC			=	c++
 
@@ -21,7 +21,7 @@ $(NAME)		:	$(OBJ)
 				$(CC) $(CFLAGS) $(OBJ) -o $(NAME) 
 		
 clean		:	
-				$(RM) $(OBJ) *_shrubbery
+				$(RM) $(OBJ)
 
 fclean		:	clean
 				$(RM) $(NAME)

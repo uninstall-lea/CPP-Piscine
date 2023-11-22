@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 class	Span {
 
@@ -19,39 +20,25 @@ class	Span {
 							Span& operator=( Span const& rhs );
 
 		void				addNumber( int n );
+		void				addNumber( std::vector<int>::iterator first, std::vector<int>::iterator last, int n );
 		int					shortestSpan( void );
 		int					longestSpan( void );
 
+/* -------------------------------------------------------------------------- */
+
+		class	MaxElementsReached : public std::exception {
+			public :
+				virtual const char* what() const throw() {
+					return ("Maximum elements reached for this array");
+				}
+		};
+
+		class	NotEnoughElemToCompute : public std::exception {
+			public :
+				virtual const char* what() const throw() {
+					return ("Not enough elements in the array to compute shortestSpan or longestSpan");
+				}
+		};
+
 };
 
-#include "Span.hpp"
-
-Span::Span( void ) : _size(0) {}
-
-Span::Span( unsigned int const N ): _size(N) {}
-
-Span::Span( Span const& src ) {
-
-	_vec.clear();
-	_vec.insert(src._vec.begin(), src._size);
-	_size = src._size;
-}
-
-Span::~Span( void ) {}
-
-Span&	Span::operator=( Span const& rhs ) {
-
-	_vec.clear();
-	_vec.insert(rhs._vec.begin(), rhs._size);
-	_size = rhs._size;
-	return (*this);
-}
-
-/*----------------------------------------------------------------------------*/
-
-void	Span::addNumber( int n ) {
-
-		std::iterarator it = _vec.begin();	
-}
-int		shortestSpan( void );
-int		longestSpan( void );
