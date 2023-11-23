@@ -21,13 +21,13 @@ class	MutantStack : public std::stack<T> {
 
 /* -------------------------------------------------------------------------- */
 
-				MutantStack( void ) {};
-				MutantStack( MutantStack const& src ) : std::stack<T>(src) {};
-				~MutantStack( void ) {};
+	MutantStack( void ) {};
+	MutantStack( MutantStack const& src ) : std::stack<T>(src) {};
+	~MutantStack( void ) {};
 
-				MutantStack& operator=( MutantStack const& rhs ) {
-					this->c = rhs.c;
-					return (*this);
-				}
+	MutantStack& operator=( MutantStack const& rhs ) {
+		this->c = rhs.c;
+		return (*this);
+	}
 
 };

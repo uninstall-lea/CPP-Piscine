@@ -24,7 +24,7 @@ int	main(void)
 	}
 	try {
 		Span test = Span(25000);
-		test.addNumber(vect.begin(), vect.end());
+		test.addNumber(vect);
 		std::cout << test.shortestSpan() << std::endl;// 1 -> 2
 		std::cout << test.longestSpan() << std::endl;// 1 -> 24500
 	}

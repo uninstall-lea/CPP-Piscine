@@ -31,19 +31,17 @@ Span&	Span::operator=( Span const& rhs ) {
 
 void	Span::addNumber( int n ) {
 
-	if (_vec.size() == _size)
+	if (_vec.size() > _size)
 		throw std::length_error("Span is full");
 	else
 		_vec.push_back(n);
 }
 
-void	Span::addNumber( std::vector<int>::iterator first, std::vector<int>::iterator last ) {
+void	Span::addNumber( std::vector<int> ref ) {
 
-	for (;first != last; first++) {
-		if (_vec.size() == _size)
-			throw std::length_error("Span is full");
-		addNumber(*first);
-	}
+	if (_size < std::distance(ref.begin(), ref.end()))
+		throw std::length_error("Span is full");
+	_vec.insert(_vec.begin(), ref.begin(), ref.end());
 }
 
 int		Span::shortestSpan( void ) {
