@@ -1,24 +1,27 @@
-#pragma once
-
+#include <exception>
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <map>
 
-class BitcoinExchange
-{
-	private:
-		std::map<std::string, double> data;
+void readInFile(const std::string &filename) {
 
-	public:
-				BitcoinExchange( void );
-				BitcoinExchange( const BitcoinExchange &src );
-				~BitcoinExchange( void );
+	std::ifstream	inFile(filename);
+	std::string		line;
 
-				BitcoinExchange& operator=( const BitcoinExchange &src );
+	if (!inFile.is_open())
+		throw std::runtime_error("An error occured while opening the file");
 
-		/* methods */
-		void	readInputFile( const std::string &filename );
-		void	calculateBitcoinValue( void );
-};
+	getline(inFile, line);
+	if (line.compare("date | value") != true)
+			throw std::invalid_argument("Bad format in file: 'date | value' expected");
 
+	while (getline(inFile, line)) {
+		checkDate(line);
+		checkValue(line);
+	}
+}
+
+void calculateBitcoinValue(void) {
+    // TODO
+}
