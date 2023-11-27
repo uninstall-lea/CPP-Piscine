@@ -1,27 +1,58 @@
-#include <exception>
-#include <iostream>
+#pragma once
+
+// Standard C++ libraries for I/O operations
 #include <fstream>
-#include <string>
+#include <iostream>
+#include <sstream>
+// Standard C++ libraries for string and container manipulation
 #include <map>
+#include <string>
+// Standard C++ libraries for formatting
+#include <iomanip>
+// Standard C++ libraries for time
+#include <ctime>
+// Standard C++ libraries for exceptions
+#include <exception>
 
-void readInFile(const std::string &filename) {
+/* Typedef */
+typedef	std::map<std::string, float> map_t;
 
-	std::ifstream	inFile(filename);
-	std::string		line;
 
-	if (!inFile.is_open())
-		throw std::runtime_error("An error occured while opening the file");
+class	BitcoinExchange {
 
-	getline(inFile, line);
-	if (line.compare("date | value") != true)
-			throw std::invalid_argument("Bad format in file: 'date | value' expected");
+	private:
+		map_t				_btcDB;
+		map_t				_infileDB;
 
-	while (getline(inFile, line)) {
-		checkDate(line);
-		checkValue(line);
-	}
-}
+	public:
 
-void calculateBitcoinValue(void) {
-    // TODO
-}
+							BitcoinExchange( void );
+							BitcoinExchange(const BitcoinExchange& rhs);
+			 				BitcoinExchange& operator=(const BitcoinExchange& rhs);
+							~BitcoinExchange();
+
+		struct tm			timeStruct;
+		int					year;
+		int					month;
+		int					day;
+
+		/* Getters */
+		map_t const&		getInfileDB( void ) const;
+		std::string const&	getInfileDate( map_t::const_iterator it ) const;
+		float const&		getInfileValue( map_t::const_iterator it ) const;
+		float				getBitcoinRate( map_t::const_iterator it ) const;
+		float				getExchangeRate( map_t::const_iterator it ) const;
+
+		/* Parsing */
+		void				readDate( map_t& _DB, std::string const& sDate );
+		void				readValue( map_t& _DB, std::string const& sDate, std::string const& sValue );
+		void				readBitcoinDB( void );
+		void				readInfile( std::string const& filename );
+
+		/* Formating */
+		void				outFormat( std::ostream& out ) const;
+
+};
+
+std::ostream& 				operator<<(std::ostream& out, BitcoinExchange const& rhs);
+size_t						separatorPos( std::string const& line, std::string const& sep);
