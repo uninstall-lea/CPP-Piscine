@@ -41,40 +41,6 @@ BitcoinExchange::~BitcoinExchange() {
 /* -------------------------------------------------------------------------- */
 /*                                   Parsing                                  */
 /* -------------------------------------------------------------------------- */
-/* --------------------------- * Checking files * --------------------------- */
-void	BitcoinExchange::checkBtcFile( void ) {
-
-	std::string		line;
-	std::ifstream	btcFile("data.csv");
-
-	if (!btcFile.is_open())
-		btcFile.close(), throw std::runtime_error("Could not open 'data.csv'");
-
-	getline(btcFile, line);
-	if (btcFile.eof())
-		btcFile.close(), throw std::runtime_error("File is empty");
-
-	if (line  != "date,exchange_rate")
-		btcFile.close(), throw std::invalid_argument("Bad format in file: 'date,exchange_rate' expected");
-
-}
-
-void	BitcoinExchange::checkInfile( std::string const& filename ) {
-
-	std::string 	line;
-	std::ifstream	inFile(filename.c_str());
-
-	if (!inFile.is_open())
-		inFile.close(), throw std::runtime_error("Could not open input file: '" + filename + "\'");
-
-	getline(inFile, line);
-	if (inFile.eof())
-		inFile.close(), throw std::runtime_error("File is empty");
-
-	if (line  != "date | value")
-		inFile.close(), throw std::invalid_argument("Bad format in file: 'date | value' expected");
-}
-
 /* ---------------------------- * Checking data * --------------------------- */
 
 // Read and parse the data base 
@@ -83,11 +49,11 @@ void	BitcoinExchange::readBtcFile( std::ifstream& btcFile ) {
 	float			value;
 	std::string		line, date;
 
-
 	while (getline(btcFile, line)) {
+
 		try {
-			date = trimSpaces(line, isDate);
-			value = checkValueRange(trimSpaces(line, isValue));
+			date = trimSpaces(line, ",",isDate);
+			value = checkValueRange(trimSpaces(line, ",", isValue));
 			_btcDB[date] = value;
 		}
 		catch (std::exception const& e) {
@@ -103,10 +69,11 @@ void	BitcoinExchange::readInFile(std::ifstream& inFile ) {
 	std::string		line, date;
 
 	while (getline(inFile, line)) {
+
 		try {
-			date = trimSpaces(line, isDate);
+			date = trimSpaces(line, "|", isDate);
 			checkDateFormat(date);
-			value = checkValueRange(trimSpaces(line, isValue));
+			value = checkValueRange(trimSpaces(line, "|", isValue));
 			_infDB[date] = value;
 		}
 		catch (std::exception const& e) {
@@ -180,7 +147,9 @@ void	BitcoinExchange::outFormat( std::ostream& out ) const {
 
 	map_t::const_iterator it = getInfDB().begin();
 
-	for (; it != getInfDB().end(); it++) {
+	std::cout<< _infDB.size() << std::endl;
+
+	for (; it != _infDB.end(); it++) {
 	out << getInfDate( it ) << " => "
 		<< getInfValue( it ) << " = " << getExchangeRate( it )
 		<< std::endl; 

@@ -48,9 +48,6 @@ class	BitcoinExchange {
 		float				getBtcRate( map_t::const_iterator it ) const;
 		float				getExchangeRate( map_t::const_iterator it ) const;
 
-		/* File checking */
-		void				checkBtcFile( void );
-		void				checkInfile( std::string const& filename );
 
 		/* Parsing */
 		void				checkDateFormat( std::string const& sDate );
@@ -62,7 +59,10 @@ class	BitcoinExchange {
 		void				outFormat( std::ostream& out ) const;
 };
 
+/* File checking */
+void						checkBtcFile( void );
+void						checkInfile( std::string const& filename );
 /* Non Member Utils */
 std::ostream& 				operator<<(std::ostream& out, BitcoinExchange const& rhs);
 size_t						separatorPos( std::string const& line, std::string const& sep);
-std::string					trimSpaces( std::string line, bool part );
+std::string					trimSpaces( std::string line, std::string sep,bool part );
