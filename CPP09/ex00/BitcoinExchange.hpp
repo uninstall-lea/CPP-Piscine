@@ -7,6 +7,7 @@
 // Standard C++ libraries for string and container manipulation
 #include <map>
 #include <string>
+#include <algorithm>
 // Standard C++ libraries for formatting
 #include <iomanip>
 // Standard C++ libraries for time
@@ -14,45 +15,54 @@
 // Standard C++ libraries for exceptions
 #include <exception>
 
+/* Defines */
+#define EXIT_SUCCESS 0
+#define EXIT_FAILURE 1
+#define isDate 1
+#define isValue 0
+
 /* Typedef */
 typedef	std::map<std::string, float> map_t;
-
 
 class	BitcoinExchange {
 
 	private:
 		map_t				_btcDB;
-		map_t				_infileDB;
+		map_t				_infDB;
+		struct tm			_timeStruct;
+		int					_year;
+		int					_month;
+		int					_day;
 
 	public:
 
 							BitcoinExchange( void );
-							BitcoinExchange(const BitcoinExchange& rhs);
+							BitcoinExchange(const BitcoinExchange& src);
 			 				BitcoinExchange& operator=(const BitcoinExchange& rhs);
 							~BitcoinExchange();
 
-		struct tm			timeStruct;
-		int					year;
-		int					month;
-		int					day;
-
 		/* Getters */
-		map_t const&		getInfileDB( void ) const;
-		std::string const&	getInfileDate( map_t::const_iterator it ) const;
-		float const&		getInfileValue( map_t::const_iterator it ) const;
-		float				getBitcoinRate( map_t::const_iterator it ) const;
+		const map_t &		getInfDB( void ) const;
+		const std::string&	getInfDate( map_t::const_iterator it ) const;
+		const float&		getInfValue( map_t::const_iterator it ) const;
+		float				getBtcRate( map_t::const_iterator it ) const;
 		float				getExchangeRate( map_t::const_iterator it ) const;
 
+		/* File checking */
+		void				checkBtcFile( void );
+		void				checkInfile( std::string const& filename );
+
 		/* Parsing */
-		void				readDate( map_t& _DB, std::string const& sDate );
-		void				readValue( map_t& _DB, std::string const& sDate, std::string const& sValue );
-		void				readBitcoinDB( void );
-		void				readInfile( std::string const& filename );
+		void				checkDateFormat( std::string const& sDate );
+		float				checkValueRange( std::string const& sValue );
+		void				readBtcFile( std::ifstream& btcFile );
+		void				readInFile( std::ifstream& inFile );
 
-		/* Formating */
+		/* Stream */
 		void				outFormat( std::ostream& out ) const;
-
 };
 
+/* Non Member Utils */
 std::ostream& 				operator<<(std::ostream& out, BitcoinExchange const& rhs);
 size_t						separatorPos( std::string const& line, std::string const& sep);
+std::string					trimSpaces( std::string line, bool part );
