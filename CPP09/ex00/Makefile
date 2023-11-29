@@ -2,7 +2,7 @@ NAME		=	btc
 
 SRCS		=	main.cpp BitcoinExchange.cpp
 
-INCS		=	 BitcoinExchange.hpp
+INCS		=	BitcoinExchange.hpp
 
 CC			=	c++
 

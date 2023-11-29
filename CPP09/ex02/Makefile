@@ -1,8 +1,8 @@
-NAME		=	RPN
+NAME		=	PmergeMe
 
-SRCS		=	main.cpp RPN.cpp
+SRCS		=	main.cpp PmergeMe.cpp
 
-INCS		=	RPN.hpp
+INCS		=	PmergeMe.hpp
 
 CC			=	c++
 
