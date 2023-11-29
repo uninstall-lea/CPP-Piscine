@@ -17,10 +17,8 @@ class	Harl {
 		void	warning( void );
 
 	public:
-		Harl( void );
-		~Harl ( void );
-
-		
+				Harl( void );
+				~Harl ( void );	
 
 		void	complain( std::string level );
 
