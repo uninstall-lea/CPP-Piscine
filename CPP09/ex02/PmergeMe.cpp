@@ -63,12 +63,19 @@ void	PmergeMe::fordJohnson(t_vecPair& v) {
 
 void	PmergeMe::fillContainers(int ac, char** av) {
 
+
 	for (int i = 1; i < ac - 1; ++i) {
 		int n1 = atoi(av[i]);
 		int n2 = atoi(av[i + 1]);
-        if (n1 < 0 || n2 < 0)
+        if (n1 < 0 || n2 < 0 || !isdigit(*av[i]) || isdigit(*av[i + 1]))
+            throw std::invalid_argument("Error => Bad input: only positive integers allowed.");
+        vec.push_back(std::make_pair(n1, n2));
+    }
+    if (ac % 2 == 0) {
+        int n = atoi(av[ac - 1]);
+        if (n < 0)
             throw std::invalid_argument("Error => Negative numbers are not allowed.");
-        vec.push_back(std::make_pair(n1, i));
+        vec.push_back(std::make_pair(n, n));
     }
 }
 
