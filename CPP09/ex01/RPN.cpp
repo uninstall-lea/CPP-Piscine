@@ -15,9 +15,17 @@ bool	 RPNCalculator::isBadInput( const std::string& token ) {
 
 // Check if enough value have been received.
 // At least 2 are needed to evaluate a mathematical expression.
+// Only numbers < 10 allowed.
 bool	 RPNCalculator::isValidExpression( void ) {
 
-	return (stack.size() >= 2 ? true : false ); 
+	right = stack.top();
+    stack.pop();
+    left = stack.top();
+    stack.pop();
+
+	if (stack.size() >= 2 && left < 10 && right < 10)
+		return (true);
+	return (false);
 }
 
 bool	 RPNCalculator::isValidOperator( const std::string& token ) {
@@ -44,11 +52,6 @@ void	 RPNCalculator::printResult( void ) {
 // 'op' defines the operation to be computed: '+', '-', '*', '/'.
 void	RPNCalculator::performOperation( const char& op ) {
 
-	right = stack.top();
-    stack.pop();
-    left = stack.top();
-    stack.pop();
-
 	switch (op) {
 		case '+': stack.push(left + right); break;
 		case '-': stack.push(left - right); break;
@@ -68,9 +71,9 @@ void	 RPNCalculator::reversePolishNotation(char *av1) {
     while (iss >> token)
 	{
 		if (isValidOperator(token)) {
-			if (!isValidExpression())
-				throw std::invalid_argument("Error => insufficient values in expression. You must provide at least 2.");
-			performOperation(token[0]);
+			if (isValidExpression())
+				performOperation(token[0]);
+			throw std::invalid_argument("Usage => At least 2 numbers '> 0 && < 10' expected.");
 		}
 
 		else if (isBadInput(token))
