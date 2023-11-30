@@ -1,157 +1,108 @@
 #include "BitcoinExchange.hpp"
 
 /* -------------------------------------------------------------------------- */
-/*                          Constructor / Destructor                          */
+/*                             Initializing fields                            */
 /* -------------------------------------------------------------------------- */
+/* To parse and map data base */
+float		BTC::_value;
+map_t		BTC::_btcDB, BTC::_infDB;
+std::string	BTC::_line, BTC::_date;
 
-BitcoinExchange::BitcoinExchange( void ) {
-
-	std::time_t t	= std::time(NULL);
-    _timeStruct 	= *std::localtime(&t);
-	_year			= _timeStruct.tm_year + 1899;
-	_month 			= _timeStruct.tm_mon + 1;
-	_day			= _timeStruct.tm_mday;
-
-// 'tm' structure stores time, with 'tm_year' representing years since 1900.
-// In 2023, 'tm_year' is 123 (2023 - 1900).
-// Our BTC database covers up to 2022, so we subtract one year (123 - 1) or (2023 - 1).
-}
-
-BitcoinExchange::BitcoinExchange(const BitcoinExchange& src)
-	: _btcDB(src._btcDB), _infDB(src._infDB)
-	, _timeStruct(src._timeStruct), _year(src._year), _month(src._month), _day(src._day) {
-
-}
-
-BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& rhs) {
-
-	/* Initialize time */
-	_timeStruct	= rhs._timeStruct;
-	_year		= rhs._year;
-	_month		= rhs._month;
-	_day		= rhs._day;
-
-	return (*this) ;
-}
-
-BitcoinExchange::~BitcoinExchange() {
-
-}
 
 /* -------------------------------------------------------------------------- */
-/*                                   Parsing                                  */
+/*                               Error Handling                               */
 /* -------------------------------------------------------------------------- */
-/* ---------------------------- * Checking data * --------------------------- */
 
-// Read and parse the data base 
-void	BitcoinExchange::readBtcFile( std::ifstream& btcFile ) {
+bool	BTC::isDateValid( std::string date ) {
 
-	float			value;
-	std::string		line, date;
+	std::time_t	time		= std::time(NULL);
+	struct tm	timeStruct	= *std::localtime(&time);
 
-	while (getline(btcFile, line)) {
+	if (!strptime(date.c_str(), "%Y-%m-%d", &timeStruct))
+		return (false);
+	
+	int	year = timeStruct.tm_year + 1900;
+	int	month = timeStruct.tm_mon + 1;
+	int	day	 = timeStruct.tm_mday;
 
-		try {
-			date = trimSpaces(line, ",",isDate);
-			value = checkValueRange(trimSpaces(line, ",", isValue));
-			_btcDB[date] = value;
-		}
-		catch (std::exception const& e) {
-			std::cerr << e.what() << std::endl;
-		}
+	if (year < 2009 || year > 2023 || month < 1 || month > 12 || day < 1 || day > 31)
+		return (false);
+
+	return (true);
+}
+
+bool	BTC::isValueInRange( float value ) {
+
+	return (value >= 0.0f && value <= 1000.0f);
+}
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                      Parsing and initiating data bases                     */
+/* -------------------------------------------------------------------------- */
+
+void	BTC::readBtcDatabase( void ) {
+
+	std::ifstream	btcFile("data.csv");
+
+	if (!btcFile)
+		std::cerr << "Error => could not open: 'data.csv'" << std::endl;
+
+	getline(btcFile, _line);
+	if (_line != "date,exchange_rate")
+		std::cerr << "Bad input => head line 'date,exchange_rate' missing" << std::endl;
+
+	while (getline(btcFile, _line)) {
+		std::istringstream iss(_line);
+		getline(iss, _date, '|');
+		iss >> _value;
+		if (isDateValid(_date) && isValueInRange(_value))
+				_btcDB[_date] = _value;
+		else
+			std::cerr << "Bad format in file => '" + _line + "'" << std::endl;
 	}
 }
 
-// Read and parse the given file 
-void	BitcoinExchange::readInFile(std::ifstream& inFile ) {
+void	BTC::readInputFile( char* av1 ) {
 
-	float			value;
-	std::string		line, date;
+	std::ifstream	inFile(av1);
 
-	while (getline(inFile, line)) {
+	if (!inFile)
+		std::cerr << "Error => could not open: '" + std::string(av1) + "'" << std::endl;
 
-		try {
-			date = trimSpaces(line, "|", isDate);
-			checkDateFormat(date);
-			value = checkValueRange(trimSpaces(line, "|", isValue));
-			_infDB[date] = value;
-		}
-		catch (std::exception const& e) {
-			std::cerr << e.what() << std::endl;
-		}
+	getline(inFile, _line);
+	if (_line != "date | value")
+		std::cerr << "Bad input => head line 'date | format' is missing" << std::endl;
+
+	while (getline(inFile, _line)) {
+		std::istringstream iss(_line);
+		getline(iss, _date, '|');
+		iss >> _value; 
+		if (isDateValid(_date) && isValueInRange(_value))
+				_infDB[_date] = _value;
+		else
+			std::cerr << "Bad format in file => '" + _line + "'" << std::endl;
 	}
 }
 
-// Read and parse date
-void	BitcoinExchange::checkDateFormat( std::string const& sDate ) {
-
-	std::istringstream	timeSS(sDate);
-	char* end = strptime(sDate.c_str(), "%Y-%m-%d", &_timeStruct);
-
-   if (end != sDate.c_str() + sDate.size())
-		throw std::invalid_argument("Bad format in file: 'Year-_month-_day' expected: " + sDate);
-
-	if (_year < 2009 || _year > 2022 || _month < 1 || _month > 12 || _day < 1 || _day > 31) {
-		throw std::invalid_argument("Bad format in file: invalid format date: " + sDate);
-	}
-}
-
-// Read and parse the file value
-float	BitcoinExchange::checkValueRange( std::string const& sValue ) {
-
-	float				value;
-	std::istringstream	iss(sValue);
-
-	iss >> value;
-	if (value < 0.0f || value > 1000.0f)
-		throw std::invalid_argument("Bad format in file: value must be between '0-1000': " + sValue);
-
-	return (value);
-}
 
 /* -------------------------------------------------------------------------- */
-/*                                   Getters                                  */
+/*                                    Utils                                   */
 /* -------------------------------------------------------------------------- */
-const map_t& BitcoinExchange::getInfDB( void ) const {
+/* Search the */
+void	BTC::printExchangeRate( std::ostream& out ) {
 
-	return (_infDB);
-} 
+	map_t::const_iterator ite = _infDB.begin();
+	map_t::const_iterator key;
 
-const std::string& BitcoinExchange::getInfDate( map_t::const_iterator it ) const {
-
-	return (it->first);
-}
-
-const float& BitcoinExchange::getInfValue( map_t::const_iterator it ) const {
-
-	return (it->second);
-}
-
-float BitcoinExchange::getBtcRate( map_t::const_iterator it ) const {
-
-	map_t::const_iterator	btcRateIt = _btcDB.lower_bound(getInfDate(it));
-	//If the key is not find in the map, get the previous iterator
-	if (btcRateIt == _btcDB.end())
-		btcRateIt--;
-	return (btcRateIt->second);
-
-}
-
-float BitcoinExchange::getExchangeRate( map_t::const_iterator it ) const {
-
-	return (getBtcRate(it) * getInfValue(it));
-}
-
-/* ------------------------------- * Stream * ------------------------------- */
-void	BitcoinExchange::outFormat( std::ostream& out ) const {
-
-	map_t::const_iterator it = getInfDB().begin();
-
-	std::cout<< _infDB.size() << std::endl;
-
-	for (; it != _infDB.end(); it++) {
-	out << getInfDate( it ) << " => "
-		<< getInfValue( it ) << " = " << getExchangeRate( it )
-		<< std::endl; 
+	for (; ite != _infDB.end(); ite++) {
+		_date	= ite->first;
+		key  	= _btcDB.lower_bound(_date);
+		if (key == _btcDB.end())
+			key--;
+		_value	= key->second;
+		int nb	= ite->second;
+		out	<< _date << " => " << nb << " = " << std::setprecision(0) << _value * nb << std::endl;
 	}
 }
