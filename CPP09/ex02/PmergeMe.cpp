@@ -18,7 +18,7 @@ void	PmergeMe::printTime( const std::list<int>& lst, clock_t start, clock_t end 
 	double	time_used	= double(end - start) / CLOCKS_PER_SEC;
 
 	std::cout << "Time to process a range of " << lst.size() << " elements with vector: "
-	<< std::fixed << std::setprecision(5) << time_used << " us" << std::endl;
+	<< std::setprecision(1) << time_used << " us" << std::endl;
 }
 
 std::ostream& operator<<(std::ostream& os, const t_vecPair& vec) {
@@ -67,7 +67,7 @@ void	PmergeMe::fillContainers(int ac, char** av) {
 	for (int i = 1; i < ac - 1; ++i) {
 		int n1 = atoi(av[i]);
 		int n2 = atoi(av[i + 1]);
-        if (n1 < 0 || n2 < 0 || !isdigit(*av[i]) || isdigit(*av[i + 1]))
+        if (n1 < 0 || n2 < 0 || !isdigit(*av[i]) || !isdigit(*av[i + 1]))
             throw std::invalid_argument("Error => Bad input: only positive integers allowed.");
         vec.push_back(std::make_pair(n1, n2));
     }
