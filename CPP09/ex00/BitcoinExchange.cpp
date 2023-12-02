@@ -5,7 +5,7 @@
 /* -------------------------------------------------------------------------- */
 /* To parse and map data base */
 float		BTC::_value;
-map_t		BTC::_btcDB, BTC::_infDB;
+map_t		BTC::_btcDB;
 std::string	BTC::_line, BTC::_date;
 
 
@@ -18,22 +18,37 @@ bool	BTC::isDateValid( std::string date ) {
 	std::time_t	time		= std::time(NULL);
 	struct tm	timeStruct	= *std::localtime(&time);
 
-	if (!strptime(date.c_str(), "%Y-%m-%d", &timeStruct))
+	if (!strptime(date.c_str(), "%Y-%m-%d", &timeStruct)) {
+		std::cerr << "Bad format in file: '" + date + "'" << std::endl;
 		return (false);
-	
+	}
+
+	if (date < "2009-01-02") {
+		std::cerr << "Bad input: Date can't be before BTC: 2009-01-02" << std::endl;
+		return (false);
+	}
 	int	year = timeStruct.tm_year + 1900;
 	int	month = timeStruct.tm_mon + 1;
 	int	day	 = timeStruct.tm_mday;
 
-	if (year < 2009 || year > 2023 || month < 1 || month > 12 || day < 1 || day > 31)
+	if (year < 2009 || year > 2023 || month < 1 || month > 12 || day < 1 || day > 31) {
+		std::cerr << "Bad input: Invalid date: '" + date + "'" << std::endl;
 		return (false);
-
+	}
 	return (true);
 }
 
 bool	BTC::isValueInRange( float value ) {
 
-	return (value >= 0.0f && value <= 1000.0f);
+	if (value < 0.0f) {
+		std::cerr << "Bad input: Must be a positive number: range is 0-1000" << std::endl;
+		return (false);
+	}
+	else if (value > 1000.0f) {
+		std::cerr << "Bad input: Too large a number: range is 0-1000" << std::endl;
+		return (false);
+	}
+	return (true);
 }
 
 
@@ -47,20 +62,18 @@ void	BTC::readBtcDatabase( void ) {
 	std::ifstream	btcFile("data.csv");
 
 	if (!btcFile)
-		std::cerr << "Error => could not open: 'data.csv'" << std::endl;
+		std::cerr << "Error: could not open: 'data.csv'" << std::endl;
 
 	getline(btcFile, _line);
 	if (_line != "date,exchange_rate")
-		std::cerr << "Bad input => head line 'date,exchange_rate' missing" << std::endl;
+		std::cerr << "Bad input: head line 'date,exchange_rate' missing" << std::endl;
 
 	while (getline(btcFile, _line)) {
 		std::istringstream iss(_line);
-		getline(iss, _date, '|');
+		getline(iss, _date, ',');
 		iss >> _value;
-		if (isDateValid(_date) && isValueInRange(_value))
+		if (isDateValid(_date))
 				_btcDB[_date] = _value;
-		else
-			std::cerr << "Bad format in file => '" + _line + "'" << std::endl;
 	}
 }
 
@@ -69,20 +82,18 @@ void	BTC::readInputFile( char* av1 ) {
 	std::ifstream	inFile(av1);
 
 	if (!inFile)
-		std::cerr << "Error => could not open: '" + std::string(av1) + "'" << std::endl;
+		std::cerr << "Error: could not open: '" + std::string(av1) + "'" << std::endl;
 
 	getline(inFile, _line);
 	if (_line != "date | value")
-		std::cerr << "Bad input => head line 'date | format' is missing" << std::endl;
+		std::cerr << "Bad input: head line 'date | format' is missing" << std::endl;
 
 	while (getline(inFile, _line)) {
 		std::istringstream iss(_line);
 		getline(iss, _date, '|');
 		iss >> _value; 
 		if (isDateValid(_date) && isValueInRange(_value))
-				_infDB[_date] = _value;
-		else
-			std::cerr << "Bad format in file => '" + _line + "'" << std::endl;
+			printExchangeRate(_date, _value);
 	}
 }
 
@@ -90,19 +101,17 @@ void	BTC::readInputFile( char* av1 ) {
 /* -------------------------------------------------------------------------- */
 /*                                    Utils                                   */
 /* -------------------------------------------------------------------------- */
-/* Search the */
-void	BTC::printExchangeRate( std::ostream& out ) {
+void	BTC::printExchangeRate( std::string inDate, float nb ) {
 
-	map_t::const_iterator ite = _infDB.begin();
-	map_t::const_iterator key;
+	map_t::const_iterator key = _btcDB.find(inDate);
 
-	for (; ite != _infDB.end(); ite++) {
-		_date	= ite->first;
-		key  	= _btcDB.lower_bound(_date);
-		if (key == _btcDB.end())
+	if (key == _btcDB.end())
+	{
+		key = _btcDB.upper_bound(inDate);
+		if (key != _btcDB.begin())
 			key--;
-		_value	= key->second;
-		int nb	= ite->second;
-		out	<< _date << " => " << nb << " = " << std::setprecision(0) << _value * nb << std::endl;
 	}
+	double value = key->second;
+
+	std::cout << inDate << " => " << nb << " = " << value * nb << std::endl;
 }
