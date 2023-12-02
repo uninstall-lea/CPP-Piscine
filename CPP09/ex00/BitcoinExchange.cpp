@@ -18,36 +18,29 @@ bool	BTC::isDateValid( std::string date ) {
 	std::time_t	time		= std::time(NULL);
 	struct tm	timeStruct	= *std::localtime(&time);
 
-	if (!strptime(date.c_str(), "%Y-%m-%d", &timeStruct)) {
-		std::cerr << "Bad format in file: '" + date + "'" << std::endl;
-		return (false);
-	}
+	if (!strptime(date.c_str(), "%Y-%m-%d", &timeStruct))
+		return (std::cerr << "Bad format in file: '" + date + "'\n", false);
 
-	if (date < "2009-01-02") {
-		std::cerr << "Bad input: Date can't be before BTC: 2009-01-02" << std::endl;
-		return (false);
-	}
+	if (date < "2009-01-02")
+		return (std::cerr << "Bad input: Date can't be before BTC: 2009-01-02\n", false);
+
 	int	year = timeStruct.tm_year + 1900;
 	int	month = timeStruct.tm_mon + 1;
 	int	day	 = timeStruct.tm_mday;
 
-	if (year < 2009 || year > 2023 || month < 1 || month > 12 || day < 1 || day > 31) {
-		std::cerr << "Bad input: Invalid date: '" + date + "'" << std::endl;
-		return (false);
-	}
+	if (year < 2009 || year > 2023 || month < 1 || month > 12 || day < 1 || day > 31)
+		return (std::cerr << "Bad input: Invalid date: '" + date + "'\n", false);
+
 	return (true);
 }
 
 bool	BTC::isValueInRange( float value ) {
 
-	if (value < 0.0f) {
-		std::cerr << "Bad input: Must be a positive number: range is 0-1000" << std::endl;
-		return (false);
-	}
-	else if (value > 1000.0f) {
-		std::cerr << "Bad input: Too large a number: range is 0-1000" << std::endl;
-		return (false);
-	}
+	if (value < 0.0f)
+		return std::cerr << "Bad input: Must be a positive number: range is 0-1000\n", false;
+	else if (value > 1000.0f) 
+		return (std::cerr << "Bad input: Too large a number: range is 0-1000\n", false);
+
 	return (true);
 }
 
@@ -73,7 +66,7 @@ void	BTC::readBtcDatabase( void ) {
 		getline(iss, _date, ',');
 		iss >> _value;
 		if (isDateValid(_date))
-				_btcDB[_date] = _value;
+			_btcDB[_date] = _value;
 	}
 }
 
