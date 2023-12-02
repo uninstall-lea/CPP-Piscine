@@ -23,6 +23,6 @@ public:
 	static void 				printResult( void );
 
 	/* Core functions */
-	static void					performOperation(const char& op);
+	static void					performOperation( const char& op );
 	static void 				reversePolishNotation( char *av1 );
 };

@@ -9,8 +9,11 @@ std::stack<double> RPNCalculator::stack;
 // Check if the input is not a char '0' and if the result of atof is neither a positive or negative number.
 // If true, then it's an invalid input.
 bool	 RPNCalculator::isBadInput( const std::string& token ) {
+	double value = std::atof(token.c_str());
 
-	return (token != "0" && std::atof(token.c_str()) == 0);
+	if ((token != "0" && value)	|| value < 0 || value > 10)
+		return (false);
+	return (true);
 }
 
 // Check if enough value have been received.
@@ -18,14 +21,8 @@ bool	 RPNCalculator::isBadInput( const std::string& token ) {
 // Only numbers < 10 allowed.
 bool	 RPNCalculator::isValidExpression( void ) {
 
-	right = stack.top();
-    stack.pop();
-    left = stack.top();
-    stack.pop();
+	return (stack.size() < 2 ? false : true);
 
-	if (stack.size() >= 2 && left < 10 && right < 10)
-		return (true);
-	return (false);
 }
 
 bool	 RPNCalculator::isValidOperator( const std::string& token ) {
@@ -36,7 +33,6 @@ bool	 RPNCalculator::isValidOperator( const std::string& token ) {
 // When all operations have been processed only the result is supposed to remain in 'stack' 
 bool	RPNCalculator::isStackNotEmpty( void ) {
 
-	// std::cout << stack.size() << std::endl;
 	return (stack.size() != 1 ? true : false);
 }
 
@@ -51,6 +47,11 @@ void	 RPNCalculator::printResult( void ) {
 // Compute the result of the operation and push it on the stack.
 // 'op' defines the operation to be computed: '+', '-', '*', '/'.
 void	RPNCalculator::performOperation( const char& op ) {
+
+	right = stack.top();
+    stack.pop();
+    left = stack.top();
+    stack.pop();
 
 	switch (op) {
 		case '+': stack.push(left + right); break;
@@ -70,21 +71,22 @@ void	 RPNCalculator::reversePolishNotation(char *av1) {
 
     while (iss >> token)
 	{
+
 		if (isValidOperator(token)) {
 			if (isValidExpression())
 				performOperation(token[0]);
-			throw std::invalid_argument("Usage => At least 2 numbers '> 0 && < 10' expected.");
+			else
+				throw std::invalid_argument("Usage => At least 2 numbers '> 0 && < 10' expected.");
 		}
 
 		else if (isBadInput(token))
 			throw std::invalid_argument("Error => bad input: " + token[0]);
 		else
 			stack.push(std::atof(token.c_str()));
-
 	}
 
 	if (isStackNotEmpty())
-		throw std::invalid_argument("Error => too many values provided, 10 limited.");
+		throw std::invalid_argument("Error => bad input: must end with an operator, 10 value limited.");
 
 	printResult();
 }
