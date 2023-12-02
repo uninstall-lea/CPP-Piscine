@@ -1,8 +1,8 @@
 #include "PmergeMe.hpp"
 
 /* ------------------------- Initialize static field ------------------------ */
-std::list<int>	PmergeMe::lst;
-t_vecPair		PmergeMe::vec;
+t_lstPair	PmergeMe::lst;
+t_vecPair	PmergeMe::vec;
 
 /* ----------------------------- Printing output ---------------------------- */
 void	PmergeMe::printTime( const t_vecPair& vec, clock_t start, clock_t end ) {
@@ -13,12 +13,12 @@ void	PmergeMe::printTime( const t_vecPair& vec, clock_t start, clock_t end ) {
 	<< std::fixed << std::setprecision(5) << time_used << " us" << std::endl;
 }
 
-void	PmergeMe::printTime( const std::list<int>& lst, clock_t start, clock_t end ) {
+void	PmergeMe::printTime( const t_lstPair& lst, clock_t start, clock_t end ) {
 
 	double	time_used	= double(end - start) / CLOCKS_PER_SEC;
 
 	std::cout << "Time to process a range of " << lst.size() << " elements with vector: "
-	<< std::setprecision(1) << time_used << " us" << std::endl;
+	<< std::setprecision(5) << time_used << " us" << std::endl;
 }
 
 std::ostream& operator<<(std::ostream& os, const t_vecPair& vec) {
@@ -33,14 +33,28 @@ std::ostream& operator<<(std::ostream& os, const t_vecPair& vec) {
 	return (os);
 }
 
-std::ostream& operator<<(std::ostream& os, const std::list<int>& lst) {
+std::ostream& operator<<(std::ostream& os, const t_lstPair& lst) {
 
-    std::copy(lst.begin(), lst.end(), std::ostream_iterator<int>(os, ", "));
-    os << "\b\b";
+    os << "[";
+	for (t_lstPair::const_iterator i = lst.begin(); i != lst.end(); ++i) {
+		os << i->first;
+        if (i != lst.end())
+            os << ", ";
+	}
+    os << "\b\b]"; 
 	return (os);
 }
 
 /* ----------------------------- Core functions ----------------------------- */
+
+void	PmergeMe::fordJohnson(void) {
+
+	for (t_lstPair::iterator it = lst.begin(); it != lst.end(); it++)
+	{
+		if (it->first > it->second)
+			std::swap(it->first, it->second);
+	}
+}
 
 void	PmergeMe::fordJohnson(t_vecPair& v) {
 
@@ -68,14 +82,16 @@ void	PmergeMe::fillContainers(int ac, char** av) {
 		int n1 = atoi(av[i]);
 		int n2 = atoi(av[i + 1]);
         if (n1 < 0 || n2 < 0 || !isdigit(*av[i]) || !isdigit(*av[i + 1]))
-            throw std::invalid_argument("Error => Bad input: only positive integers allowed.");
+            throw std::invalid_argument("Error => Bad input: only positive integers within the range '0-INT_MAX' allowed.");
         vec.push_back(std::make_pair(n1, n2));
+		lst.push_back(std::make_pair(n1, n2));
     }
     if (ac % 2 == 0) {
         int n = atoi(av[ac - 1]);
         if (n < 0)
             throw std::invalid_argument("Error => Negative numbers are not allowed.");
         vec.push_back(std::make_pair(n, n));
+		lst.push_back(std::make_pair(n, n));		
     }
 }
 
@@ -86,11 +102,15 @@ void	PmergeMe::run(int ac, char** av) {
 	fillContainers(ac, av);
 
 	std::cout << "Before: " << vec << std::endl;
+	
 	start = clock();
 	fordJohnson(vec);
-
 	end = clock();
 	printTime(vec, start, end);
+
+	start = clock();
+	fordJohnson();
+	end = clock();
 	printTime(lst, start, end);
 	std::cout << "After: " << vec << std::endl;
 }
