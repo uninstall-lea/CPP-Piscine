@@ -23,25 +23,21 @@ void	PmergeMe::printTime( const t_lstPair& lst, clock_t start, clock_t end ) {
 
 std::ostream& operator<<(std::ostream& os, const t_vecPair& vec) {
 
-	os << "[";
 	for (t_vecPair::const_iterator i = vec.begin(); i != vec.end(); ++i) {
 		os << i->first;
         if (i != vec.end() - 1)
-            os << ", ";
+            os << " ";
 	}
-    os << "]"; 
 	return (os);
 }
 
 std::ostream& operator<<(std::ostream& os, const t_lstPair& lst) {
 
-    os << "[";
 	for (t_lstPair::const_iterator i = lst.begin(); i != lst.end(); ++i) {
 		os << i->first;
         if (i != lst.end())
-            os << ", ";
+            os << " ";
 	}
-    os << "\b\b]"; 
 	return (os);
 }
 
@@ -77,22 +73,24 @@ void	PmergeMe::fordJohnson(t_vecPair& v) {
 
 void	PmergeMe::fillContainers(int ac, char** av) {
 
+	int i = 1;
 
-	for (int i = 1; i < ac - 1; ++i) {
-		int n1 = atoi(av[i]);
-		int n2 = atoi(av[i + 1]);
-        if (n1 < 0 || n2 < 0 || !isdigit(*av[i]) || !isdigit(*av[i + 1]))
+	for (; i < ac - 1; ++i) {
+		size_t n1 = atoll(av[i]);
+		size_t n2 = atoll(av[i + 1]);
+        if (n1 < 0 || n2 < 0 || n1 > INT_MAX || n2 > INT_MAX || !isdigit(*av[i]) || !isdigit(*av[i + 1]))
             throw std::invalid_argument("Error => Bad input: only positive integers within the range '0-INT_MAX' allowed.");
         vec.push_back(std::make_pair(n1, n2));
 		lst.push_back(std::make_pair(n1, n2));
     }
-    if (ac % 2 == 0) {
-        int n = atoi(av[ac - 1]);
-        if (n < 0)
-            throw std::invalid_argument("Error => Negative numbers are not allowed.");
-        vec.push_back(std::make_pair(n, n));
-		lst.push_back(std::make_pair(n, n));		
-    }
+	if (i == ac - 1) {
+		size_t n = atoll(av[i]);
+		std::cout << "|" << n << "|" << std::endl;
+		 if (n < 0 || n > INT_MAX || !isdigit(*av[i]))
+			throw std::invalid_argument("Error => Bad input: only positive integers within the range '0-INT_MAX' allowed.");
+		vec.push_back(std::make_pair(n, n));
+		lst.push_back(std::make_pair(n, n));
+	}
 }
 
 void	PmergeMe::run(int ac, char** av) {
@@ -112,5 +110,5 @@ void	PmergeMe::run(int ac, char** av) {
 	fordJohnson();
 	end = clock();
 	printTime(lst, start, end);
-	std::cout << "After: " << vec << std::endl;
+	std::cout << "After:  " << vec << std::endl;
 }

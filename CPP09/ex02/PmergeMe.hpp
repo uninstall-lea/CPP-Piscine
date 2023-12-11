@@ -1,5 +1,6 @@
 #include <list>
 #include <ctime>
+#include <climits>
 #include <vector>
 #include <utility>
 #include <iomanip>
