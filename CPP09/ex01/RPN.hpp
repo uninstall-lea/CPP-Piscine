@@ -5,7 +5,9 @@
 #include <cstdlib>
 #include <sstream>
 #include <iostream>
+#include <iterator>
 #include <exception>
+
 
 class RPNCalculator {
 private:
@@ -16,7 +18,7 @@ public:
 	/* Error handling */
 	static bool 				isStackNotEmpty( void );
 	static bool 				isValidExpression( void );
-	static bool					isBadInput( const std::string& token );
+	static bool					isBadInput( std::string& token );
 	static bool			 		isValidOperator( const std::string& token );
 
 	/* Printing result of operations */

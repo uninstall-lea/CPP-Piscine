@@ -8,12 +8,13 @@ std::stack<double> RPNCalculator::stack;
 /* ----------------------------- Error handling ----------------------------- */
 // Check if the input is not a char '0' and if the result of atof is neither a positive or negative number.
 // If true, then it's an invalid input.
-bool	 RPNCalculator::isBadInput( const std::string& token ) {
-	double value = std::atof(token.c_str());
+bool	 RPNCalculator::isBadInput( std::string& token ) {
+	
+	char c = token[0];
 
-	if ((token != "0" && value)	|| value < 0 || value > 10)
-		return (false);
-	return (true);
+	if (token.size() != 1 || !isdigit(c))
+		return (true);
+	return (false);
 }
 
 // Check if enough value have been received.
@@ -80,13 +81,13 @@ void	 RPNCalculator::reversePolishNotation(char *av1) {
 		}
 
 		else if (isBadInput(token))
-			throw std::invalid_argument("Error => bad input: " + token[0]);
+			throw std::invalid_argument("Error => bad input: " + token);
 		else
 			stack.push(std::atof(token.c_str()));
 	}
 
 	if (isStackNotEmpty())
-		throw std::invalid_argument("Error => bad input: must end with an operator, 10 value limited.");
+		throw std::invalid_argument("Error => bad input: invalid numbers of arguments.");
 
 	printResult();
 }
