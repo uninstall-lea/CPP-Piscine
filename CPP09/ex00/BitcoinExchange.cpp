@@ -54,10 +54,8 @@ void	BTC::readBtcDatabase( void ) {
 
 	std::ifstream	btcFile("data.csv");
 
-	if (!btcFile) {
-		std::cerr << "Error: could not open: 'data.csv'" << std::endl;
-		return; 
-	}
+	if (!btcFile)
+		throw std::invalid_argument("Error: could not open: 'data.csv'");
 
 	getline(btcFile, _line);
 	if (_line != "date,exchange_rate")
