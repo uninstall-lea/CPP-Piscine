@@ -17,7 +17,7 @@ void	PmergeMe::printTime( const t_lstPair& lst, clock_t start, clock_t end ) {
 
 	double	time_used	= double(end - start) / CLOCKS_PER_SEC;
 
-	std::cout << "Time to process a range of " << lst.size() << " elements with vector: "
+	std::cout << "Time to process a range of " << lst.size() << " elements with list: "
 	<< std::setprecision(5) << time_used << " us" << std::endl;
 }
 
