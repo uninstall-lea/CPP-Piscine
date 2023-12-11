@@ -3,10 +3,8 @@
 int main(int ac, char** av) {
 
 	try {
-
 		if (ac < 2)
-        	std::invalid_argument("Error => No input sequence provided.");
-
+        	throw std::invalid_argument("Error => No input sequence provided.");
 		PmergeMe::run(ac, av);
     }
 	catch (std::exception& e) {

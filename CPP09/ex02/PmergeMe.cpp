@@ -85,7 +85,6 @@ void	PmergeMe::fillContainers(int ac, char** av) {
     }
 	if (i == ac - 1) {
 		size_t n = atoll(av[i]);
-		std::cout << "|" << n << "|" << std::endl;
 		 if (n < 0 || n > INT_MAX || !isdigit(*av[i]))
 			throw std::invalid_argument("Error => Bad input: only positive integers within the range '0-INT_MAX' allowed.");
 		vec.push_back(std::make_pair(n, n));
